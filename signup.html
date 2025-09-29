@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register Page</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Boxicons -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<style>
+/* Root colors */
+:root {
+    --primary-purple: #8B5FBF;
+    --light-purple: #B794C8;
+    --pale-purple: #E8D5F2;
+    --dark-purple: #6A4C93;
+    --accent-lavender: #C8B2DB;
+    --text-dark: #2D1B3D;
+    --text-light: #6B46C1;
+    --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+    --card-shadow: 0 8px 25px rgba(139, 95, 191, 0.12);
+    --hover-shadow: 0 12px 35px rgba(139, 95, 191, 0.2);
+}
+
+/* Reset & global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('health.png'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Wrapper */
+.wrapper {
+    width: 420px;
+    padding: 30px 40px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: var(--card-shadow);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header & Logo */
+.login-header {
+    background: var(--primary-purple);
+    padding: 2rem 0 1rem 0;
+    text-align: center;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    background: var(--pale-purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: var(--card-shadow);
+    animation: bounceIn 0.8s ease;
+    font-size: 1.8rem;
+    color: var(--primary-purple);
+}
+
+/* Form */
+.form-container { width: 100%; padding: 2rem 0; }
+
+.form-group {
+    margin-bottom: 1rem;
+    position: relative;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.form-group:nth-child(3) { animation-delay: 0.3s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    padding: 0 10px;
+}
+
+.input-container:focus-within {
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 0 2px rgba(139,95,191,0.2);
+}
+
+.input-icon {
+    padding: 0 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    color: #6A4C93;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+input::placeholder {
+    color: var(--text-light);
+}
+
+.password-toggle {
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+.password-toggle i {
+    font-size: 20px;
+    color: var(--dark-purple);
+}
+
+/* Button */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    background: var(--primary-purple);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: var(--dark-purple);
+}
+
+/* Register/Login link */
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #6A4C93;
+}
+
+.register-link a {
+    color: var(--primary-purple);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 
+    0% { transform: scale(0.3); opacity:0; } 
+    50% { transform: scale(1.1); } 
+    70% { transform: scale(0.95); } 
+    100% { transform: scale(1); opacity:1; } 
+}
+
+/* Responsive */
+@media (max-width:480px) { 
+    .wrapper { width: 90%; padding: 20px; } 
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="login-header">
+        <div class="logo"><i class='bx bx-user'></i></div>
+    </div>
+    <div class="form-container">
+        <form id="registerForm">
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon"><i class='bx bx-user'></i></span>
+                    <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon"><i class='bx bx-envelope'></i></span>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon"><i class='bx bx-lock'></i></span>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span class="password-toggle" onclick="togglePassword('password')">
+                      <i class='bx bx-eye'></i>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon"><i class='bx bx-lock-alt'></i></span>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                      <i class='bx bx-eye'></i>
+                    </span>
+                </div>
+            </div>
+            <button type="submit" class="login-btn" id="registerButton">Register</button>
+            <div class="register-link">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function togglePassword(fieldId) {
+    const input = document.getElementById(fieldId);
+    const icon = input.nextElementSibling.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('bx-eye','bx-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('bx-eye-slash','bx-eye');
+    }
+}
+
+document.getElementById('registerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const fullname = document.getElementById('fullname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+    }
+    if(password.length < 6){
+        alert("Password must be at least 6 characters long");
+        return;
+    }
+    alert("Registration successful for " + fullname + "!");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Lumina</title>
+    <style>
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B794C8;
+            --pale-purple: #E8D5F2;
+            --dark-purple: #6A4C93;
+            --accent-lavender: #C8B2DB;
+            --text-dark: #2D1B3D;
+            --text-light: #6B46C1;
+            --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+            --card-shadow: 0 6px 18px rgba(139, 95, 191, 0.12);
+            --hover-shadow: 0 10px 28px rgba(139, 95, 191, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background-image: url('health.png');
+        }
+
+        /* Abstract Background */
+        .background-art {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100vh;
+            background: radial-gradient(ellipse at center, 
+                rgba(139, 95, 191, 0.4) 0%, 
+                rgba(183, 148, 200, 0.3) 30%,
+                rgba(232, 213, 242, 0.2) 60%,
+                transparent 100%);
+            filter: blur(120px);
+            z-index: -1;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(139, 95, 191, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 160px;
+            height: 160px;
+            top: 10%;
+            right: 10%;
+            animation-delay: -2s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            right: 20%;
+            animation-delay: -8s;
+            background: rgba(183, 148, 200, 0.15);
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 40%;
+            right: 5%;
+            animation-delay: -5s;
+            background: rgba(200, 178, 219, 0.12);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(20px) rotate(240deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: 340px; /* reduced width */
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .container:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            background: var(--primary-purple);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: spin 3s linear infinite;
+        }
+
+        .logo-container::after {
+            content: '🔐';
+            font-size: 1.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .title {
+            color: var(--text-dark);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 0.75rem 0.75rem 2.2rem;
+            border: 2px solid rgba(139, 95, 191, 0.1);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            background: rgba(248, 250, 252, 0.8);
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(139, 95, 191, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-purple);
+            font-size: 1rem;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            padding: 0.4rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .password-strength.show { opacity: 1; }
+        .strength-weak { background: rgba(239,68,68,0.1); color:#DC2626; }
+        .strength-medium { background: rgba(245,158,11,0.1); color:#D97706; }
+        .strength-strong { background: rgba(34,197,94,0.1); color:#059669; }
+
+        .requirements {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(139, 95, 191, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(139, 95, 191, 0.1);
+        }
+
+        .requirements-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .requirement-item.met { color: #059669; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background: var(--dark-purple);
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .submit-btn:disabled {
+            background: var(--light-purple);
+            cursor: not-allowed;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(139, 95, 191, 0.1);
+        }
+
+        .back-link a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .success-message, .error-message {
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: rgba(34,197,94,0.1);
+            color: #059669;
+        }
+
+        .error-message {
+            background: rgba(239,68,68,0.1);
+            color: #DC2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="background-art"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo-container"></div>
+            <h1 class="title">Create New Password</h1>
+            <p class="subtitle">Please create a strong password for your Lumina account.</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✅ Password reset successfully! You can now login with your new password.
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            ❌ Something went wrong. Please try again.
+        </div>
+
+        <form id="resetPasswordForm">
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" class="input-field" placeholder="New Password" id="newPassword" required>
+                </div>
+                <div class="password-strength" id="passwordStrength"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-container">
+                    <span class="input-icon">🔐</span>
+                    <input type="password" class="input-field" placeholder="Confirm Password" id="confirmPassword" required>
+                </div>
+            </div>
+
+            <div class="requirements">
+                <div class="requirements-title">Password Requirements</div>
+                <div class="requirement-item" id="lengthReq"><span>◯</span> At least 8 characters</div>
+                <div class="requirement-item" id="uppercaseReq"><span>◯</span> One uppercase letter</div>
+                <div class="requirement-item" id="lowercaseReq"><span>◯</span> One lowercase letter</div>
+                <div class="requirement-item" id="numberReq"><span>◯</span> One number</div>
+                <div class="requirement-item" id="specialReq"><span>◯</span> One special character</div>
+                <div class="requirement-item" id="matchReq"><span>◯</span> Passwords match</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                Reset Password
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="#" onclick="goBack()">← Back to Login</a>
+        </div>
+    </div>
+
+    <script>
+        const newPasswordField = document.getElementById('newPassword');
+        const confirmPasswordField = document.getElementById('confirmPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('resetPasswordForm');
+        const lengthReq = document.getElementById('lengthReq');
+        const uppercaseReq = document.getElementById('uppercaseReq');
+        const lowercaseReq = document.getElementById('lowercaseReq');
+        const numberReq = document.getElementById('numberReq');
+        const specialReq = document.getElementById('specialReq');
+        const matchReq = document.getElementById('matchReq');
+
+        function checkPasswordStrength(password) {
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /\d/.test(password),
+                special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            };
+
+            updateRequirement(lengthReq, requirements.length);
+            updateRequirement(uppercaseReq, requirements.uppercase);
+            updateRequirement(lowercaseReq, requirements.lowercase);
+            updateRequirement(numberReq, requirements.number);
+            updateRequirement(specialReq, requirements.special);
+
+            const met = Object.values(requirements).filter(Boolean).length;
+            let text = '⚠️ Weak Password', strength = 'weak';
+            if (met >= 5) { text = '💪 Strong Password'; strength = 'strong'; }
+            else if (met >= 3) { text = '⚡ Good Password'; strength = 'medium'; }
+
+            if (password.length > 0) {
+                passwordStrength.textContent = text;
+                passwordStrength.className = `password-strength show strength-${strength}`;
+            } else {
+                passwordStrength.className = 'password-strength';
+            }
+            return { requirements, met };
+        }
+
+        function updateRequirement(el, ok) {
+            el.firstChild.textContent = ok ? '✓ ' : '◯ ';
+            el.classList.toggle('met', ok);
+        }
+
+        function checkPasswordsMatch() {
+            const match = newPasswordField.value === confirmPasswordField.value && newPasswordField.value.length > 0;
+            updateRequirement(matchReq, match);
+            return match;
+        }
+
+        function validateForm() {
+            const check = checkPasswordStrength(newPasswordField.value);
+            const match = checkPasswordsMatch();
+            submitBtn.disabled = !(Object.values(check.requirements).every(Boolean) && match);
+        }
+
+        newPasswordField.addEventListener('input', validateForm);
+        confirmPasswordField.addEventListener('input', validateForm);
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.textContent = 'Resetting...';
+            submitBtn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'block';
+                form.style.display = 'none';
+            }, 1500);
+        });
+
+        function goBack() { alert('Redirecting to login page...'); }
+        validateForm();
+    </script>
+</body>
+</html>

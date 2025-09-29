@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumina - Reflections</title>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary-purple: #8B5FBF;
+    --light-purple: #B794C8;
+    --pale-purple: #E8D5F2;
+    --dark-purple: #6A4C93;
+    --accent-lavender: #C8B2DB;
+    --text-dark: #2D1B3D;
+    --text-light: #6B46C1;
+    --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+    --card-shadow: 0 10px 25px rgba(139, 95, 191, 0.15);
+    --hover-shadow: 0 15px 35px rgba(139, 95, 191, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+    color: white;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: var(--card-shadow);
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 30px 25px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 3px;
+    background: linear-gradient(45deg, #fff, #E8D5F2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sidebar .tagline {
+    font-size: 12px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.sidebar li {
+    margin: 5px 15px;
+    border-radius: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.sidebar li:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateX(5px);
+}
+
+.sidebar li.active {
+    background: rgba(255,255,255,0.2);
+    box-shadow: inset 3px 0 0 white;
+}
+
+.sidebar li i {
+    margin-right: 12px;
+    font-size: 20px;
+    width: 24px;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 280px;
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Banner Styles */
+.banner {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0.7;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.banner h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.banner p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+}
+
+.banner-button {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.banner-button:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.content-wrapper {
+    padding: 30px;
+    flex: 1;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 25px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: var(--text-light);
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.header p {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.reflection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.reflection-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.reflection-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.reflection-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-purple), var(--light-purple), var(--dark-purple));
+}
+
+.reflection-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.reflection-title {
+    color: var(--text-light);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.reflection-description {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.reflection-btn {
+    background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.reflection-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+.daily-prompt {
+    background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+    border-radius: 25px;
+    padding: 2rem;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.daily-prompt::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: sparkle 6s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: rotate(0deg); }
+    50% { opacity: 1; transform: rotate(180deg); }
+}
+
+.daily-prompt h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.daily-prompt p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1.6;
+}
+
+.prompt-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.prompt-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.stat-number {
+    color: var(--primary-purple);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 40px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+}
+
+footer h3 {
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+}
+
+footer p {
+    color: var(--text-dark);
+    margin: 6px 0;
+    font-size: 0.9rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer a.button {
+    display: inline-block;
+    margin: 4px 8px;
+    padding: 8px 12px;
+    background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+footer a.button:hover {
+    background: var(--dark-purple);
+    box-shadow: var(--hover-shadow);
+}
+
+.quote {
+    margin-top: 18px;
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.social-links {
+    margin-top: 15px;
+}
+
+.social-links a {
+    margin: 0 8px;
+    font-size: 1.4rem;
+    color: var(--dark-purple);
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--primary-purple);
+}
+
+.copyright {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: gray;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 25px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+.modal h3 {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.reflection-input {
+    width: 100%;
+    min-height: 150px;
+    border: 2px solid #E5E7EB;
+    border-radius: 15px;
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.reflection-input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+}
+
+.save-reflection {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.save-reflection:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+    
+    .main-content {
+        margin-left: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    .content-wrapper {
+        padding: 15px;
+    }
+    
+    .reflection-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .banner {
+        height: 200px;
+    }
+    
+    .banner h1 {
+        font-size: 28px;
+    }
+    
+    .banner p {
+        font-size: 16px;
+    }
+    
+    /* Mobile footer adjustments */
+    footer {
+        margin-top: 30px;
+        padding: 20px 15px;
+    }
+    
+    footer h3 {
+        font-size: 1.2rem;
+    }
+    
+    footer p {
+        font-size: 0.85rem;
+    }
+    
+    .quote {
+        font-size: 0.9rem;
+    }
+}
+</style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>LUMINA</h1>
+            <div class="tagline">Mental Wellness</div>
+        </div>
+        <ul>
+            <li data-page="home">
+                <a href="dashboard.html"><i class='bx bx-home'></i><span>Dashboard</span></a>
+            </li>
+            <li data-page="diary">
+                <a href="journal.html"><i class='bx bx-book-heart'></i><span>Journal</span></a>
+            </li>
+            <li data-page="playlist">
+                <a href="music.html"><i class='bx bx-music'></i><span>Mindful Music</span></a>
+            </li>
+            <li data-page="art-therapy">
+                <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
+            </li>
+            <li class="active" data-page="reflection">
+                <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
+            </li>
+            <li data-page="meditation">
+                <a href="meditation.html"><i class='bx bx-spa'></i><span>Meditation</span></a>
+            </li>
+            <li data-page="profile">
+                <a href="profile.html"><i class='bx bx-user-circle'></i><span>Profile</span></a>
+            </li>
+            <li data-page="#" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="logout.html"><i class='bx bx-log-out'></i><span>Sign Out</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Banner Section -->
+        <div class="banner">
+            <!-- Using a placeholder image for demonstration -->
+            <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Reflections Banner" class="banner-image">
+            <div class="banner-content">
+                <h1>Reflect & Grow</h1>
+                <p>Mindful reflection helps build self-awareness and emotional resilience on your wellness journey.</p>
+                <a href="#" class="banner-button">Start Your Reflection</a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="header">
+                <h1>🔄 Daily Reflections</h1>
+                <p>Take a moment to pause, reflect, and connect with your inner self. Mindful reflection helps build self-awareness and emotional resilience on your wellness journey.</p>
+            </div>
+
+            <div class="daily-prompt">
+                <h2>✨ Today's Reflection Prompt</h2>
+                <p id="dailyPromptText">"What brought you peace today, and how can you carry that feeling forward?"</p>
+                <button class="prompt-btn" onclick="openReflectionModal('daily')">Reflect on This</button>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Total Reflections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Minutes Reflected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.8</div>
+                    <div class="stat-label">Wellness Score</div>
+                </div>
+            </div>
+
+            <div class="reflection-grid">
+                <div class="reflection-card">
+                    <span class="reflection-icon">🌅</span>
+                    <h3 class="reflection-title">Morning Intentions</h3>
+                    <p class="reflection-description">Start your day with purpose. Reflect on your goals, hopes, and the energy you want to bring into the world today.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('morning')">Begin Morning Reflection</button>
+                </div>
+
+                <div class="reflection-card">
+                    <span class="reflection-icon">🌇</span>
+                    <h3 class="reflection-title">Evening Gratitude</h3>
+                    <p class="reflection-description">End your day with appreciation. Consider the moments that brought joy, the lessons learned, and the growth experienced.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('evening')">Start Evening Reflection</button>
+                </div>
+
+                <div class="reflection-card">
+                    <span class="reflection-icon">💭</span>
+                    <h3 class="reflection-title">Mindful Moments</h3>
+                    <p class="reflection-description">Capture fleeting thoughts and insights throughout your day. Create space for spontaneous self-discovery and awareness.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('mindful')">Add Quick Reflection</button>
+                </div>
+
+                <div class="reflection-card">
+                    <span class="reflection-icon">🎯</span>
+                    <h3 class="reflection-title">Goal Reflection</h3>
+                    <p class="reflection-description">Examine your progress toward personal and wellness goals. Celebrate achievements and identify areas for growth.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('goals')">Reflect on Goals</button>
+                </div>
+
+                <div class="reflection-card">
+                    <span class="reflection-icon">❤️</span>
+                    <h3 class="reflection-title">Self-Compassion</h3>
+                    <p class="reflection-description">Practice kindness toward yourself. Explore self-acceptance, forgiveness, and nurturing your inner dialogue.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('compassion')">Practice Self-Compassion</button>
+                </div>
+
+                <div class="reflection-card">
+                    <span class="reflection-icon">🌱</span>
+                    <h3 class="reflection-title">Growth & Learning</h3>
+                    <p class="reflection-description">Reflect on personal development and insights gained. Document your evolution and wisdom acquired through experiences.</p>
+                    <button class="reflection-btn" onclick="openReflectionModal('growth')">Explore Growth</button>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <footer>
+                <h3>Need Help?</h3>
+                <p>If you're feeling overwhelmed or need someone to talk to, our support team is here for you.</p>
+
+                <div>
+                    <a href="tel:123456789" class="button">📞 Call Support</a>
+                    <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
+                </div>
+
+                <p class="quote">
+                    "Reflection is the lamp of the heart. If it departs, the heart will have no light."
+                </p>
+
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin-square'></i></a>
+                </div>
+
+                <p class="copyright">
+                    © 2025 LUMINA | Privacy Policy | Terms of Service
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal for Reflections -->
+    <div class="modal" id="reflectionModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeReflectionModal()">×</button>
+            <h3 id="modalTitle">Reflection</h3>
+            <p id="modalPrompt" style="color: #6B7280; margin-bottom: 1rem;"></p>
+            <textarea class="reflection-input" id="reflectionText" placeholder="Take your time... let your thoughts flow freely..."></textarea>
+            <button class="save-reflection" onclick="saveReflection()">Save Reflection ✨</button>
+        </div>
+    </div>
+
+    <script>
+        const reflectionPrompts = {
+            daily: [
+                "What brought you peace today, and how can you carry that feeling forward?",
+                "What challenge did you face today, and what did it teach you?",
+                "How did you show kindness to yourself or others today?",
+                "What moment today made you feel most alive?",
+                "What are you most grateful for in this moment?"
+            ],
+            morning: [
+                "What intentions do you want to set for today?",
+                "How do you want to feel by the end of today?",
+                "What energy do you want to bring into the world today?",
+                "What are three things you're looking forward to today?",
+                "How can you nurture yourself throughout the day?"
+            ],
+            evening: [
+                "What are three things you're grateful for today?",
+                "What moments brought you joy today?",
+                "What did you learn about yourself today?",
+                "How did you grow or overcome challenges today?",
+                "What would you like to release from today?"
+            ],
+            mindful: [
+                "What thoughts are present in your mind right now?",
+                "How is your body feeling in this moment?",
+                "What emotions are you experiencing without judgment?",
+                "What do you notice in your environment right now?",
+                "What insight just came to you?"
+            ],
+            goals: [
+                "What progress have you made toward your goals recently?",
+                "What obstacles are you facing, and how might you overcome them?",
+                "How aligned are your daily actions with your values?",
+                "What adjustments do you need to make to your goals?",
+                "What achievement are you most proud of lately?"
+            ],
+            compassion: [
+                "How can you be kinder to yourself today?",
+                "What would you say to a friend going through your situation?",
+                "What parts of yourself do you need to accept more fully?",
+                "How can you forgive yourself for past mistakes?",
+                "What do you appreciate most about who you are?"
+            ],
+            growth: [
+                "What skills or insights have you developed recently?",
+                "How have you changed over the past month?",
+                "What patterns in your life would you like to shift?",
+                "What wisdom have you gained from recent experiences?",
+                "What aspect of yourself are you still discovering?"
+            ]
+        };
+
+        let currentReflectionType = '';
+
+        function openReflectionModal(type) {
+            currentReflectionType = type;
+            const modal = document.getElementById('reflectionModal');
+            const title = document.getElementById('modalTitle');
+            const prompt = document.getElementById('modalPrompt');
+            const input = document.getElementById('reflectionText');
+            
+            // Set title based on type
+            const titles = {
+                daily: 'Daily Reflection',
+                morning: 'Morning Intentions',
+                evening: 'Evening Gratitude',
+                mindful: 'Mindful Moment',
+                goals: 'Goal Reflection',
+                compassion: 'Self-Compassion Practice',
+                growth: 'Growth & Learning'
+            };
+            
+            title.textContent = titles[type] || 'Reflection';
+            
+            // Get random prompt for the type
+            const prompts = reflectionPrompts[type] || reflectionPrompts.daily;
+            const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+            prompt.textContent = randomPrompt;
+            
+            // Clear previous input
+            input.value = '';
+            input.focus();
+            
+            modal.classList.add('active');
+        }
+
+        function closeReflectionModal() {
+            document.getElementById('reflectionModal').classList.remove('active');
+        }
+
+        function saveReflection() {
+            const text = document.getElementById('reflectionText').value.trim();
+            
+            if (!text) {
+                alert('Please write your reflection before saving.');
+                return;
+            }
+            
+            // Here you would typically save to a backend
+            // For now, we'll just simulate saving
+            const reflection = {
+                type: currentReflectionType,
+                text: text,
+                timestamp: new Date().toISOString(),
+                prompt: document.getElementById('modalPrompt').textContent
+            };
+            
+            // Save to localStorage for demo purposes
+            let reflections = JSON.parse(localStorage.getItem('lumina_reflections') || '[]');
+            reflections.push(reflection);
+            localStorage.setItem('lumina_reflections', JSON.stringify(reflections));
+            
+            // Show success message
+            const saveButton = document.querySelector('.save-reflection');
+            const originalText = saveButton.textContent;
+            saveButton.textContent = 'Saved! ✨';
+            saveButton.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+            
+            setTimeout(() => {
+                closeReflectionModal();
+                saveButton.textContent = originalText;
+                saveButton.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+                
+                // Update stats (simplified)
+                updateStats();
+            }, 1500);
+        }
+
+        function updateStats() {
+            const reflections = JSON.parse(localStorage.getItem('lumina_reflections') || '[]');
+            const statCards = document.querySelectorAll('.stat-number');
+            
+            // Update total reflections count
+            if (statCards[1]) {
+                statCards[1].textContent = reflections.length;
+            }
+        }
+
+        // Update daily prompt
+        function updateDailyPrompt() {
+            const prompts = reflectionPrompts.daily;
+            const today = new Date().toDateString();
+            const savedDate = localStorage.getItem('lumina_prompt_date');
+            
+            if (savedDate !== today) {
+                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                document.getElementById('dailyPromptText').textContent = `"${randomPrompt}"`;
+                localStorage.setItem('lumina_prompt_date', today);
+                localStorage.setItem('lumina_daily_prompt', randomPrompt);
+            } else {
+                const savedPrompt = localStorage.getItem('lumina_daily_prompt');
+                if (savedPrompt) {
+                    document.getElementById('dailyPromptText').textContent = `"${savedPrompt}"`;
+                }
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('reflectionModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeReflectionModal();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDailyPrompt();
+            updateStats();
+            
+            // Navigation functionality
+            document.querySelectorAll('.sidebar li a').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.sidebar li').forEach(nav => nav.classList.remove('active'));
+                    this.parentElement.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

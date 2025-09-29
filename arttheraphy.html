@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA - Art Therapy</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- 🎨 CSS Styling -->
+  <style>
+    :root {
+      --primary-purple: #8B5FBF;
+      --light-purple: #B794C8;
+      --pale-purple: #E8D5F2;
+      --dark-purple: #6A4C93;
+      --accent-lavender: #C8B2DB;
+      --text-dark: #2D1B3D;
+      --text-light: #6B46C1;
+      --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+      --card-shadow: 0 10px 25px rgba(139, 95, 191, 0.15);
+      --hover-shadow: 0 15px 35px rgba(139, 95, 191, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+      color: white;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: var(--card-shadow);
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 30px 25px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 3px;
+      background: linear-gradient(45deg, #fff, #E8D5F2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar .tagline {
+      font-size: 12px;
+      opacity: 0.8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 20px 0;
+    }
+
+    .sidebar li {
+      margin: 5px 15px;
+      border-radius: 15px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar li a {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .sidebar li:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateX(5px);
+    }
+
+    .sidebar li.active {
+      background: rgba(255,255,255,0.2);
+      box-shadow: inset 3px 0 0 white;
+    }
+
+    .sidebar li i {
+      margin-right: 12px;
+      font-size: 20px;
+      width: 24px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Banner Styles */
+    .banner {
+      width: 100%;
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      opacity: 0.7;
+    }
+
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .banner h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .banner p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    }
+
+    .banner-button {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .banner-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .content-wrapper {
+      padding: 30px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .header h2 {
+      color: var(--dark-purple);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: #555;
+      font-size: 1rem;
+    }
+
+    /* Canvas container */
+    .canvas-container {
+      display: flex;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .tools-panel {
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tool-section {
+      background: white;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .tool-section h3 {
+      margin-bottom: 0.8rem;
+      color: var(--dark-purple);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .color-palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.selected {
+      border-color: var(--dark-purple);
+      transform: scale(1.1);
+    }
+
+    .brush-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brush-preview {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brush-dot {
+      background: black;
+      border-radius: 50%;
+    }
+
+    .tool-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tool-btn {
+      padding: 0.6rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--primary-purple);
+      color: white;
+      transition: all 0.3s;
+    }
+
+    .tool-btn:hover {
+      background: var(--dark-purple);
+      transform: translateY(-2px);
+    }
+
+    .tool-btn.active {
+      background: var(--dark-purple);
+    }
+
+    .upload-btn {
+      display: block;
+      padding: 0.6rem;
+      text-align: center;
+      border: 2px dashed var(--primary-purple);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--dark-purple);
+      transition: all 0.3s;
+    }
+
+    .upload-btn:hover {
+      background: var(--pale-purple);
+    }
+
+    .canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .canvas-wrapper {
+      flex: 1;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+    }
+
+    canvas {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      cursor: crosshair;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .canvas-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .new-btn {
+      background: var(--primary-purple);
+    }
+    .clear-btn {
+      background: #e11d48;
+    }
+    .save-btn {
+      background: #059669;
+    }
+
+    /* Footer Styles */
+    footer {
+      margin-top: 40px;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+
+    footer h3 {
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+    }
+
+    footer p {
+      color: var(--text-dark);
+      margin: 6px 0;
+      font-size: 0.9rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer a.button {
+      display: inline-block;
+      margin: 4px 8px;
+      padding: 8px 12px;
+      background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    footer a.button:hover {
+      background: var(--dark-purple);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .quote {
+      margin-top: 18px;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .social-links {
+      margin-top: 15px;
+    }
+
+    .social-links a {
+      margin: 0 8px;
+      font-size: 1.4rem;
+      color: var(--dark-purple);
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: var(--primary-purple);
+    }
+
+    .copyright {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: gray;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+      
+      .main-content {
+        margin-left: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .content-wrapper {
+        padding: 15px;
+      }
+      
+      .canvas-container {
+        flex-direction: column;
+      }
+      
+      .tools-panel {
+        width: 100%;
+      }
+      
+      .canvas-wrapper {
+        min-height: 400px;
+      }
+      
+      .banner {
+        height: 200px;
+      }
+      
+      .banner h1 {
+        font-size: 28px;
+      }
+      
+      .banner p {
+        font-size: 16px;
+      }
+      
+      /* Mobile footer adjustments */
+      footer {
+        margin-top: 30px;
+        padding: 20px 15px;
+      }
+      
+      footer h3 {
+        font-size: 1.2rem;
+      }
+      
+      footer p {
+        font-size: 0.85rem;
+      }
+      
+      .quote {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* File Input Styling */
+    .file-input {
+      display: none;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--pale-purple);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-purple);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>LUMINA</h1>
+      <div class="tagline">Mental Wellness</div>
+    </div>
+    <ul>
+             <li data-page="home">
+                <a href="dashboard.html"><i class='bx bx-home'></i><span>Dashboard</span></a>
+            </li>
+            <li data-page="diary">
+                <a href="journal.html"><i class='bx bx-book-heart'></i><span>Journal</span></a>
+            </li>
+            <li data-page="playlist">
+                <a href="music.html"><i class='bx bx-music'></i><span>Mindful Music</span></a>
+            </li>
+            <li class="active" data-page="art-therapy">
+                <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
+            </li>
+            <li  data-page="reflection">
+                <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
+            </li>
+            <li data-page="meditation">
+                <a href="meditation.html"><i class='bx bx-spa'></i><span>Meditation</span></a>
+            </li>
+            <li data-page="profile">
+                <a href="profile.html"><i class='bx bx-user-circle'></i><span>Profile</span></a>
+            </li>
+            <li data-page="logout" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="logout.html"><i class='bx bx-log-out'></i><span>Sign Out</span></a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Banner Section -->
+    <div class="banner">
+      <!-- Using a placeholder image for demonstration -->
+      <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Art Therapy Banner" class="banner-image">
+      <div class="banner-content">
+        <h1>Creative Expression</h1>
+        <p>Discover healing through art. Express your emotions, reduce stress, and find inner peace through creative expression.</p>
+        <a href="#" class="banner-button">Start Creating</a>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="header">
+        <h2>Art Therapy Canvas</h2>
+        <p>Express your emotions through digital art. Let your creativity flow freely and find peace through artistic expression.</p>
+      </div>
+
+      <div class="canvas-container">
+        <!-- Tools Panel -->
+        <div class="tools-panel">
+          <div class="tool-section">
+            <h3>Colors</h3>
+            <div class="color-palette">
+              <div class="color-option selected" style="background:#000" data-color="#000000"></div>
+              <div class="color-option" style="background:#EF4444" data-color="#EF4444"></div>
+              <div class="color-option" style="background:#F59E0B" data-color="#F59E0B"></div>
+              <div class="color-option" style="background:#10B981" data-color="#10B981"></div>
+              <div class="color-option" style="background:#3B82F6" data-color="#3B82F6"></div>
+              <div class="color-option" style="background:#8B5CF6" data-color="#8B5CF6"></div>
+            </div>
+            <input type="color" id="customColor" style="margin-top:10px;width:100%;height:40px;">
+          </div>
+
+          <div class="tool-section">
+            <h3>Brush</h3>
+            <div class="brush-controls">
+              <span>Size:</span>
+              <input type="range" id="brushSize" min="1" max="50" value="5">
+              <div class="brush-preview">
+                <div class="brush-dot" id="brushPreview"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-section">
+            <h3>Tools</h3>
+            <div class="tool-buttons">
+              <button class="tool-btn active" id="brushTool">🖌️ Brush</button>
+              <button class="tool-btn" id="eraserTool">🧹 Eraser</button>
+              <button class="tool-btn" id="fillTool">🪣 Fill</button>
+            </div>
+          </div>
+
+          <div class="tool-section">
+            <h3>Upload Image</h3>
+            <input type="file" id="imageUpload" class="file-input" accept="image/*">
+            <label for="imageUpload" class="upload-btn">📁 Choose Image</label>
+          </div>
+        </div>
+
+        <!-- Canvas Area -->
+        <div class="canvas-area">
+          <div class="canvas-wrapper">
+            <canvas id="artCanvas" width="800" height="600"></canvas>
+          </div>
+          <div class="canvas-actions">
+            <button class="action-btn new-btn" id="newCanvas">✨ New</button>
+            <button class="action-btn clear-btn" id="clearCanvas">🗑️ Clear</button>
+            <button class="action-btn save-btn" id="saveArt">💾 Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Section -->
+      <footer>
+        <h3>Need Help?</h3>
+        <p>If you are in crisis, please call your local hotline or reach out for professional support.</p>
+
+        <div>
+          <a href="tel:123456789" class="button">📞 Call Now</a>
+          <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
+        </div>
+
+        <p class="quote">
+          "Art washes away from the soul the dust of everyday life."
+        </p>
+
+        <div class="social-links">
+          <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+          <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+          <a href="#"><i class='bx bxl-linkedin-square'></i></a>
+        </div>
+
+        <p class="copyright">
+          © 2025 LUMINA | Privacy Policy | Disclaimer
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- 🎨 JavaScript -->
+  <script>
+    class ArtTherapyCanvas {
+      constructor() {
+        this.canvas = document.getElementById('artCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.isDrawing = false;
+        this.currentTool = 'brush';
+        this.currentColor = '#000000';
+        this.brushSize = 5;
+        this.initializeCanvas();
+        this.bindEvents();
+        this.updateBrushPreview();
+      }
+
+      initializeCanvas() {
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx.lineCap = 'round';
+        this.ctx.lineJoin = 'round';
+      }
+
+      bindEvents() {
+        this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
+        this.canvas.addEventListener('mousemove', this.draw.bind(this));
+        this.canvas.addEventListener('mouseup', this.stopDrawing.bind(this));
+        this.canvas.addEventListener('mouseout', this.stopDrawing.bind(this));
+
+        // Touch events for mobile devices
+        this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
+        this.canvas.addEventListener('touchend', this.stopDrawing.bind(this));
+
+        document.querySelectorAll('.color-option').forEach(opt=>{
+          opt.addEventListener('click',(e)=>{
+            document.querySelector('.color-option.selected').classList.remove('selected');
+            e.target.classList.add('selected');
+            this.currentColor = e.target.dataset.color;
+            this.updateBrushPreview();
+          });
+        });
+
+        document.getElementById('customColor').addEventListener('change',(e)=>{
+          this.currentColor = e.target.value;
+          this.updateBrushPreview();
+        });
+
+        document.getElementById('brushSize').addEventListener('input',(e)=>{
+          this.brushSize = e.target.value;
+          this.updateBrushPreview();
+        });
+
+        document.getElementById('brushTool').addEventListener('click',()=>this.setTool('brush'));
+        document.getElementById('eraserTool').addEventListener('click',()=>this.setTool('eraser'));
+        document.getElementById('fillTool').addEventListener('click',()=>this.setTool('fill'));
+
+        document.getElementById('newCanvas').addEventListener('click',()=>this.initializeCanvas());
+        document.getElementById('clearCanvas').addEventListener('click',()=>this.initializeCanvas());
+        document.getElementById('saveArt').addEventListener('click',()=>this.saveArtwork());
+
+        document.getElementById('imageUpload').addEventListener('change', this.loadImage.bind(this));
+
+        // Navigation functionality
+        document.querySelectorAll('.sidebar li a').forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.sidebar li').forEach(nav => nav.classList.remove('active'));
+            this.parentElement.classList.add('active');
+          });
+        });
+      }
+
+      setTool(tool) {
+        this.currentTool = tool;
+        document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById(tool+'Tool').classList.add('active');
+      }
+
+      updateBrushPreview() {
+        const preview = document.getElementById('brushPreview');
+        const size = Math.max(2, Math.min(20, this.brushSize/2));
+        preview.style.width = size+'px';
+        preview.style.height = size+'px';
+        preview.style.background = this.currentColor;
+      }
+
+      startDrawing(e) {
+        this.isDrawing = true;
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        this.ctx.beginPath();
+        this.ctx.moveTo(x,y);
+      }
+
+      draw(e) {
+        if(!this.isDrawing) return;
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        this.ctx.lineWidth = this.brushSize;
+        this.ctx.strokeStyle = this.currentTool==='eraser' ? 'white' : this.currentColor;
+        this.ctx.lineTo(x,y);
+        this.ctx.stroke();
+        this.ctx.beginPath();
+        this.ctx.moveTo(x,y);
+      }
+
+      stopDrawing() {
+        this.isDrawing = false;
+        this.ctx.beginPath();
+      }
+
+      // Touch event handlers for mobile
+      handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        this.canvas.dispatchEvent(mouseEvent);
+      }
+
+      handleTouchMove(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent('mousemove', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        this.canvas.dispatchEvent(mouseEvent);
+      }
+
+      saveArtwork() {
+        const link = document.createElement('a');
+        link.download = 'lumina-art-' + Date.now() + '.png';
+        link.href = this.canvas.toDataURL();
+        link.click();
+      }
+
+      loadImage(e) {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev)=>{
+          const img = new Image();
+          img.onload = ()=>{
+            this.initializeCanvas();
+            const scale = Math.min(this.canvas.width/img.width, this.canvas.height/img.height);
+            const newW = img.width*scale;
+            const newH = img.height*scale;
+            const x = (this.canvas.width-newW)/2;
+            const y = (this.canvas.height-newH)/2;
+            this.ctx.drawImage(img, x, y, newW, newH);
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded',()=>{ new ArtTherapyCanvas(); });
+  </script>
+</body>
+</html>

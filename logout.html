@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Mental Wellness - Account Management</title>
+    <style>
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B794C8;
+            --pale-purple: #E8D5F2;
+            --dark-purple: #6A4C93;
+            --accent-lavender: #C8B2DB;
+            --text-dark: #2D1B3D;
+            --text-light: #6B46C1;
+            --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+            --card-shadow: 0 6px 18px rgba(139, 95, 191, 0.12);
+            --hover-shadow: 0 10px 28px rgba(139, 95, 191, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            padding: 0 2rem;
+        }
+
+        .sidebar .subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border: none;
+            background: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 2.5rem;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-right: 4px solid white;
+        }
+
+        .nav-item i {
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .sign-out {
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .account-management-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Action Cards */
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            color: white;
+        }
+
+        .signout-icon {
+            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+        }
+
+        .delete-icon {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .btn-signout {
+            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+            color: white;
+        }
+
+        .btn-signout:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-purple);
+            border: 2px solid var(--primary-purple);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-purple);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--hover-shadow);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .modal-text {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--pale-purple);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: none;
+            animation: fadeInDown 0.5s ease;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .warning-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .action-card {
+                padding: 2rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .card-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1>LUMINA</h1>
+        <div class="subtitle">MENTAL WELLNESS</div>
+        
+        <nav>
+            <a href="#" class="nav-item">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-book"></i>
+                Journal
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-music"></i>
+                Mindful Music
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-palette"></i>
+                Art Therapy
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-clock"></i>
+                Reflections
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-leaf"></i>
+                Meditation
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                Profile
+            </a>
+            
+            <div class="sign-out">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sign Out
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="account-management-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Account Management</h1>
+                <p class="page-subtitle">Manage your account settings and data</p>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <span>Action completed successfully!</span>
+            </div>
+
+            <!-- Sign Out Card -->
+            <div class="action-card">
+                <div class="card-header">
+                    <div class="card-icon signout-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div>
+                        <h2 class="card-title">Sign Out</h2>
+                    </div>
+                </div>
+                <p class="card-description">
+                    Sign out of your current session while keeping your account and all data intact. 
+                    You can sign back in anytime using your credentials.
+                </p>
+                <button class="btn btn-signout" onclick="signOut()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sign Out Now
+                </button>
+            </div>
+
+            <!-- Delete Account Card -->
+            <div class="action-card">
+                <div class="card-header">
+                    <div class="card-icon delete-icon">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                    <div>
+                        <h2 class="card-title">Delete Account</h2>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-triangle warning-icon"></i>
+                    <div>
+                        <strong>Warning:</strong> This action is permanent and cannot be undone. 
+                        All your data, progress, and achievements will be permanently deleted.
+                    </div>
+                </div>
+
+                <p class="card-description">
+                    Permanently delete your Lumina account and all associated data. This includes your journal entries, 
+                    meditation progress, art therapy sessions, and all personal information. This action cannot be reversed.
+                </p>
+                
+                <button class="btn btn-danger" onclick="showDeleteModal()">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete My Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeDeleteModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h3 class="modal-title">Permanently Delete Account?</h3>
+            
+            <p class="modal-text">
+                Are you absolutely sure you want to delete your account? This will permanently remove:
+                <br><br>
+                • All journal entries and personal reflections<br>
+                • Meditation progress and achievements<br>
+                • Art therapy sessions and creations<br>
+                • Personal profile and preferences<br>
+                • All uploaded documents and files
+                <br><br>
+                <strong>This action cannot be undone.</strong>
+            </p>
+            
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">
+                    Cancel
+                </button>
+                <button class="btn btn-danger" onclick="deleteAccount()">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete Permanently
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sign out functionality
+        function signOut() {
+            const button = event.target;
+            const originalContent = button.innerHTML;
+            
+            // Add loading state
+            button.innerHTML = '<div class="spinner"></div>Signing out...';
+            button.classList.add('loading');
+            
+            // Simulate sign out process
+            setTimeout(() => {
+                showSuccessMessage('Successfully signed out!');
+                button.innerHTML = originalContent;
+                button.classList.remove('loading');
+                
+                // Redirect to login page after delay
+                setTimeout(() => {
+                    alert('Redirecting to login page...\n(In a real app, this would redirect to the login screen)');
+                }, 1500);
+            }, 2000);
+        }
+
+        // Show delete confirmation modal
+        function showDeleteModal() {
+            document.getElementById('deleteModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close delete confirmation modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Delete account functionality
+        function deleteAccount() {
+            const button = event.target;
+            const originalContent = button.innerHTML;
+            
+            // Add loading state
+            button.innerHTML = '<div class="spinner"></div>Deleting...';
+            button.classList.add('loading');
+            
+            // Simulate account deletion process
+            setTimeout(() => {
+                closeDeleteModal();
+                showSuccessMessage('Account deleted successfully!');
+                
+                // Show final message and redirect
+                setTimeout(() => {
+                    alert('Your account has been permanently deleted.\n\nThank you for using Lumina Mental Wellness. We hope you found value in your wellness journey.\n\n(In a real app, this would redirect to a goodbye page or home page)');
+                }, 2000);
+            }, 3000);
+        }
+
+        // Show success message
+        function showSuccessMessage(message) {
+            const successMsg = document.getElementById('successMessage');
+            successMsg.querySelector('span').textContent = message;
+            successMsg.classList.add('active');
+            
+            setTimeout(() => {
+                successMsg.classList.remove('active');
+            }, 4000);
+        }
+
+        // Navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.textContent.trim() === 'Sign Out') return; // Don't change active state for sign out
+                
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Handle escape key to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+
+        // Mobile menu toggle (if needed)
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

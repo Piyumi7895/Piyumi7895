@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA - Journal</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B794C8;
+            --pale-purple: #E8D5F2;
+            --dark-purple: #6A4C93;
+            --accent-lavender: #C8B2DB;
+            --text-dark: #2D1B3D;
+            --text-light: #6B46C1;
+            --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+            --card-shadow: 0 8px 25px rgba(139, 95, 191, 0.12);
+            --hover-shadow: 0 12px 35px rgba(139, 95, 191, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: var(--card-shadow);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #fff, #E8D5F2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar .tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar li {
+            margin: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .sidebar li:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar li.active {
+            background: rgba(255,255,255,0.2);
+            box-shadow: inset 3px 0 0 white;
+        }
+
+        .sidebar li i {
+            margin-right: 12px;
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Banner Styles */
+        .banner {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .banner h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .banner p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+
+        .banner-button {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .banner-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .content-wrapper {
+            padding: 30px;
+            flex: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--pale-purple);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            font-size: 32px;
+            color: var(--primary-purple);
+            margin-right: 15px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-purple), var(--dark-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-purple);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .journal-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            min-height: calc(100vh - 500px);
+        }
+
+        .entries-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            overflow-y: auto;
+        }
+
+        .entries-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--pale-purple);
+        }
+
+        .entries-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border: 2px solid var(--pale-purple);
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-light);
+        }
+
+        .filter-tab.active,
+        .filter-tab:hover {
+            background: var(--primary-purple);
+            border-color: var(--primary-purple);
+            color: white;
+        }
+
+        .entry-card {
+            background: linear-gradient(135deg, #F8F4FF, var(--pale-purple));
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-purple);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .entry-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 95, 191, 0.2);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .entry-date {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .entry-mood {
+            background: var(--light-purple);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .entry-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .entry-preview {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        .entry-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .action-icon {
+            background: var(--pale-purple);
+            color: var(--primary-purple);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .action-icon:hover {
+            background: var(--primary-purple);
+            color: white;
+        }
+
+        .sidebar-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .new-entry-form {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+        }
+
+        .new-entry-form:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header i {
+            font-size: 24px;
+            color: var(--primary-purple);
+            margin-right: 12px;
+        }
+
+        .form-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--pale-purple);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(139, 95, 191, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .mood-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .mood-option {
+            padding: 8px;
+            border: 2px solid var(--pale-purple);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+            background: white;
+        }
+
+        .mood-option:hover,
+        .mood-option.selected {
+            background: var(--primary-purple);
+            border-color: var(--primary-purple);
+            color: white;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--pale-purple);
+            color: var(--text-dark);
+            flex: 0.5;
+        }
+
+        .features-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .features-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-title i {
+            margin-right: 8px;
+            color: var(--primary-purple);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #F8F4FF, var(--pale-purple));
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(139, 95, 191, 0.2);
+        }
+
+        .feature-icon {
+            background: var(--primary-purple);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .insights-panel {
+            background: linear-gradient(135deg, var(--pale-purple), #F0E6FF);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid var(--light-purple);
+        }
+
+        .insights-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .insights-title i {
+            margin-right: 8px;
+            color: var(--primary-purple);
+        }
+
+        .insight-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-dark);
+        }
+
+        .insight-highlight {
+            color: var(--primary-purple);
+            font-weight: 600;
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        footer h3 {
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+
+        footer p {
+            color: var(--text-dark);
+            margin: 6px 0;
+            font-size: 0.9rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer a.button {
+            display: inline-block;
+            margin: 4px 8px;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        footer a.button:hover {
+            background: var(--dark-purple);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .quote {
+            margin-top: 18px;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .social-links {
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            margin: 0 8px;
+            font-size: 1.4rem;
+            color: var(--dark-purple);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: gray;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--pale-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+            
+            .journal-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .sidebar-panel {
+                grid-row: 1;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .content-wrapper {
+                padding: 15px;
+            }
+            
+            .banner {
+                height: 250px;
+            }
+            
+            .banner h1 {
+                font-size: 28px;
+            }
+            
+            .banner p {
+                font-size: 16px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .mood-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Mobile footer adjustments */
+            footer {
+                margin-top: 30px;
+                padding: 20px 15px;
+            }
+            
+            footer h3 {
+                font-size: 1.2rem;
+            }
+            
+            footer p {
+                font-size: 0.85rem;
+            }
+            
+            .quote {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .entry-card {
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        .new-entry-form,
+        .features-panel,
+        .insights-panel {
+            animation: fadeInUp 0.4s ease forwards;
+        }
+
+        .new-entry-form {
+            animation-delay: 0.1s;
+        }
+
+        .features-panel {
+            animation-delay: 0.2s;
+        }
+
+        .insights-panel {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>LUMINA</h1>
+            <div class="tagline">Mental Wellness</div>
+        </div>
+        <ul>
+            <li data-page="home">
+                <a href="dashboard.html"><i class='bx bx-home'></i><span>Dashboard</span></a>
+            </li>
+            <li class="active" data-page="diary">
+                <a href="journal.html"><i class='bx bx-book-heart'></i><span>Journal</span></a>
+            </li>
+            <li data-page="playlist">
+                <a href="music.html"><i class='bx bx-music'></i><span>Mindful Music</span></a>
+            </li>
+            <li data-page="art-therapy">
+                <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
+            </li>
+            <li data-page="reflection">
+                <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
+            </li>
+            <li data-page="meditation">
+                <a href="meditation.html"><i class='bx bx-spa'></i><span>Meditation</span></a>
+            </li>
+            <li data-page="profile">
+                <a href="profile.html"><i class='bx bx-user-circle'></i><span>Profile</span></a>
+            </li>
+            <li data-page="logout" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="logout.html"><i class='bx bx-log-out'></i><span>Sign Out</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <!-- Banner Section -->
+        <div class="banner">
+            <!-- Using a placeholder image for demonstration -->
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Journal Banner" class="banner-image">
+            <div class="banner-content">
+                <h1>Your Personal Journal</h1>
+                <p>Write, reflect, and grow. Your thoughts are the seeds of your personal transformation.</p>
+                <a href="#" class="banner-button">Start Writing</a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="page-header">
+                <div class="page-title">
+                    <i class='bx bx-book-heart'></i>
+                    <h1>My Journal</h1>
+                </div>
+                <div class="page-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">47</div>
+                        <div class="stat-label">Entries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="journal-container">
+                <div class="entries-section">
+                    <div class="entries-header">
+                        <h2 class="entries-title">Recent Entries</h2>
+                        <div class="filter-tabs">
+                            <div class="filter-tab active" data-filter="all">All</div>
+                            <div class="filter-tab" data-filter="today">Today</div>
+                            <div class="filter-tab" data-filter="week">This Week</div>
+                        </div>
+                    </div>
+
+                    <div class="entries-list" id="entriesList">
+                        <div class="entry-card">
+                            <div class="entry-header">
+                                <div class="entry-date">Today, 3:24 PM</div>
+                                <div class="entry-mood">😌 Peaceful</div>
+                            </div>
+                            <div class="entry-title">Afternoon Reflections</div>
+                            <div class="entry-preview">
+                                Today I spent time in the garden, watching the butterflies dance among the lavender. There's something deeply calming about nature's rhythms...
+                            </div>
+                            <div class="entry-actions">
+                                <div class="action-icon" title="Edit"><i class='bx bx-edit'></i></div>
+                                <div class="action-icon" title="Share"><i class='bx bx-share'></i></div>
+                                <div class="action-icon" title="Favorite"><i class='bx bx-heart'></i></div>
+                                <div class="action-icon" title="More"><i class='bx bx-dots-horizontal'></i></div>
+                            </div>
+                        </div>
+
+                        <div class="entry-card">
+                            <div class="entry-header">
+                                <div class="entry-date">Yesterday, 8:15 AM</div>
+                                <div class="entry-mood">🙏 Grateful</div>
+                            </div>
+                            <div class="entry-title">Morning Gratitude</div>
+                            <div class="entry-preview">
+                                Woke up feeling incredibly grateful for the small things today. The way sunlight filters through my curtains, the sound of birds singing...
+                            </div>
+                            <div class="entry-actions">
+                                <div class="action-icon" title="Edit"><i class='bx bx-edit'></i></div>
+                                <div class="action-icon" title="Share"><i class='bx bx-share'></i></div>
+                                <div class="action-icon" title="Favorite"><i class='bx bx-heart'></i></div>
+                                <div class="action-icon" title="More"><i class='bx bx-dots-horizontal'></i></div>
+                            </div>
+                        </div>
+
+                        <div class="entry-card">
+                            <div class="entry-header">
+                                <div class="entry-date">2 days ago, 6:30 PM</div>
+                                <div class="entry-mood">🤔 Thoughtful</div>
+                            </div>
+                            <div class="entry-title">Evening Contemplation</div>
+                            <div class="entry-preview">
+                                Been thinking about the concept of growth today. How we shed old versions of ourselves like trees shed their leaves...
+                            </div>
+                            <div class="entry-actions">
+                                <div class="action-icon" title="Edit"><i class='bx bx-edit'></i></div>
+                                <div class="action-icon" title="Share"><i class='bx bx-share'></i></div>
+                                <div class="action-icon" title="Favorite"><i class='bx bx-heart'></i></div>
+                                <div class="action-icon" title="More"><i class='bx bx-dots-horizontal'></i></div>
+                            </div>
+                        </div>
+
+                        <div class="entry-card">
+                            <div class="entry-header">
+                                <div class="entry-date">3 days ago, 11:20 AM</div>
+                                <div class="entry-mood">😊 Joyful</div>
+                            </div>
+                            <div class="entry-title">Unexpected Joy</div>
+                            <div class="entry-preview">
+                                Had the most wonderful surprise today! A friend sent me a handwritten letter in the mail. In this digital age, receiving something so personal...
+                            </div>
+                            <div class="entry-actions">
+                                <div class="action-icon" title="Edit"><i class='bx bx-edit'></i></div>
+                                <div class="action-icon" title="Share"><i class='bx bx-share'></i></div>
+                                <div class="action-icon" title="Favorite"><i class='bx bx-heart'></i></div>
+                                <div class="action-icon" title="More"><i class='bx bx-dots-horizontal'></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-panel">
+                    <div class="new-entry-form">
+                        <div class="form-header">
+                            <i class='bx bx-plus-circle'></i>
+                            <h3>New Entry</h3>
+                        </div>
+                        
+                        <form id="newEntryForm">
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-input" placeholder="What's on your mind?" id="entryTitle">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">How are you feeling?</label>
+                                <div class="mood-selector">
+                                    <div class="mood-option" data-mood="joyful">😊 Joy</div>
+                                    <div class="mood-option" data-mood="peaceful">😌 Peace</div>
+                                    <div class="mood-option" data-mood="grateful">🙏 Grateful</div>
+                                    <div class="mood-option" data-mood="thoughtful">🤔 Thoughtful</div>
+                                    <div class="mood-option" data-mood="melancholy">😔 Melancholy</div>
+                                    <div class="mood-option" data-mood="anxious">😰 Anxious</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Your thoughts</label>
+                                <textarea class="form-input form-textarea" placeholder="Share what's in your heart..." id="entryContent"></textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Entry</button>
+                                <button type="button" class="btn btn-secondary">Draft</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="features-panel">
+                        <h4 class="features-title">
+                            <i class='bx bx-magic-wand'></i>
+                            Quick Features
+                        </h4>
+                        <div class="feature-item" onclick="addPrompt()">
+                            <div class="feature-icon"><i class='bx bx-bulb'></i></div>
+                            <div class="feature-text">Writing Prompt</div>
+                        </div>
+                        <div class="feature-item" onclick="addVoiceNote()">
+                            <div class="feature-icon"><i class='bx bx-microphone'></i></div>
+                            <div class="feature-text">Voice Note</div>
+                        </div>
+                        <div class="feature-item" onclick="addMoodTracker()">
+                            <div class="feature-icon"><i class='bx bx-heart'></i></div>
+                            <div class="feature-text">Mood Tracker</div>
+                        </div>
+                        <div class="feature-item" onclick="addPhotoMemory()">
+                            <div class="feature-icon"><i class='bx bx-camera'></i></div>
+                            <div class="feature-text">Photo Memory</div>
+                        </div>
+                    </div>
+
+                    <div class="insights-panel">
+                        <h4 class="insights-title">
+                            <i class='bx bx-brain'></i>
+                            Journal Insights
+                        </h4>
+                        <div class="insight-item">
+                            You've written <span class="insight-highlight">5 consecutive days</span> this week! Your consistency is beautiful. 💜
+                        </div>
+                        <div class="insight-item">
+                            Most common mood: <span class="insight-highlight">Peaceful</span>. You're finding your center more often lately.
+                        </div>
+                        <div class="insight-item">
+                            Your entries are <span class="insight-highlight">20% longer</span> than last month, showing deeper reflection.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <footer>
+                <h3>Need Help?</h3>
+                <p>If you are in crisis, please call your local hotline or reach out for professional support.</p>
+
+                <div>
+                    <a href="tel:123456789" class="button">📞 Call Now</a>
+                    <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
+                </div>
+
+                <p class="quote">
+                    "Healing doesn't mean the damage never existed. It means the damage no longer controls our lives."
+                </p>
+
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin-square'></i></a>
+                </div>
+
+                <p class="copyright">
+                    © 2025 LUMINA | Privacy Policy | Disclaimer
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Mood selection
+        document.querySelectorAll('.mood-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                // Here you would filter the entries based on the selected filter
+                console.log('Filtering by:', filter);
+            });
+        });
+
+        // Form submission
+        document.getElementById('newEntryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('entryTitle').value;
+            const content = document.getElementById('entryContent').value;
+            const selectedMood = document.querySelector('.mood-option.selected');
+            
+            if (!title || !content || !selectedMood) {
+                showNotification('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            // Create new entry
+            addNewEntry(title, content, selectedMood.dataset.mood, selectedMood.textContent);
+            
+            // Clear form
+            this.reset();
+            document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Show success message
+            showNotification('Journal entry saved successfully!', 'success');
+        });
+
+        // Function to add new entry
+        function addNewEntry(title, content, mood, moodText) {
+            const entriesList = document.getElementById('entriesList');
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const dateString = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry-card';
+            newEntry.innerHTML = `
+                <div class="entry-header">
+                    <div class="entry-date">${dateString}, ${timeString}</div>
+                    <div class="entry-mood">${moodText}</div>
+                </div>
+                <div class="entry-title">${title}</div>
+                <div class="entry-preview">${content.substring(0, 100)}${content.length > 100 ? '...' : ''}</div>
+                <div class="entry-actions">
+                    <div class="action-icon" title="Edit"><i class='bx bx-edit'></i></div>
+                    <div class="action-icon" title="Share"><i class='bx bx-share'></i></div>
+                    <div class="action-icon" title="Favorite"><i class='bx bx-heart'></i></div>
+                    <div class="action-icon" title="More"><i class='bx bx-dots-horizontal'></i></div>
+                </div>
+            `;
+            
+            // Add to the top of the list
+            entriesList.insertBefore(newEntry, entriesList.firstChild);
+            
+            // Update stats
+            updateStats();
+        }
+
+        // Function to show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(45deg, var(--primary-purple), var(--light-purple))' : '#ff6b6b'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+                z-index: 1001;
+                font-weight: 500;
+                max-width: 300px;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Function to update stats
+        function updateStats() {
+            const entriesCount = document.querySelectorAll('.entry-card').length;
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const todayEntries = Array.from(document.querySelectorAll('.entry-date'))
+                .filter(date => date.textContent.includes(today)).length;
+            
+            // Update the stats display
+            document.querySelector('.stat-item:nth-child(1) .stat-number').textContent = entriesCount;
+            document.querySelector('.stat-item:nth-child(2) .stat-number').textContent = todayEntries;
+        }
+
+        // Feature functions
+        function addPrompt() {
+            const prompts = [
+                "What made you smile today?",
+                "What are you grateful for right now?",
+                "What challenge did you overcome recently?",
+                "Describe a moment of peace you experienced.",
+                "What would you tell your younger self?"
+            ];
+            const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+            document.getElementById('entryContent').value = randomPrompt;
+            showNotification('Writing prompt added!', 'success');
+        }
+
+        function addVoiceNote() {
+            showNotification('Voice recording feature would be implemented here', 'info');
+        }
+
+        function addMoodTracker() {
+            showNotification('Mood tracking feature would be implemented here', 'info');
+        }
+
+        function addPhotoMemory() {
+            showNotification('Photo upload feature would be implemented here', 'info');
+        }
+
+        // Navigation functionality
+        document.querySelectorAll('.sidebar li a').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar li').forEach(nav => nav.classList.remove('active'));
+                this.parentElement.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

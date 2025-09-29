@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINA - Mental Health Dashboard</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B794C8;
+            --pale-purple: #E8D5F2;
+            --dark-purple: #6A4C93;
+            --accent-lavender: #C8B2DB;
+            --text-dark: #2D1B3D;
+            --text-light: #6B46C1;
+            --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+            --card-shadow: 0 10px 25px rgba(139, 95, 191, 0.15);
+            --hover-shadow: 0 15px 35px rgba(139, 95, 191, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: var(--card-shadow);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #fff, #E8D5F2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar .tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar li {
+            margin: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .sidebar li:hover::before {
+            left: 100%;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .sidebar li:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar li.active {
+            background: rgba(255,255,255,0.2);
+            box-shadow: inset 3px 0 0 white;
+        }
+
+        .sidebar li i {
+            margin-right: 12px;
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            min-height: 100vh;
+        }
+
+        /* Banner Styles */
+        .banner {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .banner h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .banner p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+
+        .banner-button {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .banner-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .content-wrapper {
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+            border-radius: 2px;
+        }
+
+        .header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-purple), var(--dark-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header .date {
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .mood-section {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-section::before {
+            content: '🧘‍♀️';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            opacity: 0.1;
+        }
+
+        .mood-question {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mood-btn {
+            padding: 15px 20px;
+            border: 2px solid var(--pale-purple);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .mood-btn:hover {
+            color: white;
+            border-color: var(--primary-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 95, 191, 0.3);
+        }
+
+        .mood-btn:hover::before {
+            left: 0;
+        }
+
+        .mood-btn.selected {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            border-color: var(--primary-purple);
+            box-shadow: 0 8px 20px rgba(139, 95, 191, 0.3);
+        }
+
+        .mood-result {
+            background: linear-gradient(135deg, var(--pale-purple), #F8F4FF);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--light-purple);
+        }
+
+        .mood-result h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .save-mood-btn {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(139, 95, 191, 0.3);
+        }
+
+        .save-mood-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 95, 191, 0.4);
+        }
+
+        .bottom-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            min-height: 350px;
+        }
+
+        .panel-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .panel-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .panel-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .panel-header i {
+            margin-right: 10px;
+            color: var(--primary-purple);
+            font-size: 24px;
+        }
+
+        .reflection-card {
+            background: linear-gradient(135deg, #F8F4FF, var(--pale-purple));
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-purple);
+            transition: all 0.3s;
+        }
+
+        .reflection-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.2);
+        }
+
+        .reflection-header {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .reflection-content {
+            line-height: 1.6;
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        .tags {
+            margin-top: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--light-purple);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .wellness-tip {
+            background: linear-gradient(135deg, var(--pale-purple), #F0E6FF);
+            border: 1px solid var(--light-purple);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .wellness-tip-header {
+            font-weight: 600;
+            color: var(--primary-purple);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .wellness-tip-header::before {
+            content: '💡';
+            margin-right: 8px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+        }
+
+        .action-btn i {
+            margin-right: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(139, 95, 191, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(139, 95, 191, 0.3);
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h3 {
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .modal textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid var(--pale-purple);
+            border-radius: 12px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .modal textarea:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.save {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #E5E7EB;
+            color: var(--text-dark);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Footer Styles - Reduced Size */
+        footer {
+            margin-top: 40px; /* Reduced from 60px */
+            background: white;
+            padding: 25px; /* Reduced from 40px */
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        footer h3 {
+            color: var(--text-dark);
+            margin-bottom: 12px; /* Reduced from 15px */
+            font-size: 1.4rem; /* Reduced from 1.6rem */
+        }
+
+        footer p {
+            color: var(--text-dark);
+            margin: 6px 0; /* Reduced from 8px */
+            font-size: 0.9rem; /* Reduced from 1rem */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer a.button {
+            display: inline-block;
+            margin: 4px 8px; /* Reduced from 5px 10px */
+            padding: 8px 12px; /* Reduced from 10px 15px */
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            font-size: 0.9rem; /* Added for better proportion */
+        }
+
+        footer a.button:hover {
+            background: var(--dark-purple);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .quote {
+            margin-top: 18px; /* Reduced from 25px */
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1rem; /* Reduced from 1.1rem */
+            line-height: 1.4; /* Added for better readability */
+        }
+
+        .social-links {
+            margin-top: 15px; /* Reduced from 20px */
+        }
+
+        .social-links a {
+            margin: 0 8px; /* Reduced from 10px */
+            font-size: 1.4rem; /* Reduced from 1.6rem */
+            color: var(--dark-purple);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .copyright {
+            margin-top: 20px; /* Reduced from 30px */
+            font-size: 0.8rem; /* Reduced from 0.9rem */
+            color: gray;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content-wrapper {
+                margin-left: 280px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 0;
+            }
+            
+            .sidebar-header {
+                padding: 20px 10px;
+            }
+            
+            .sidebar h1 {
+                font-size: 16px;
+                writing-mode: vertical-rl;
+                text-orientation: mixed;
+            }
+            
+            .sidebar .tagline {
+                display: none;
+            }
+            
+            .sidebar li a {
+                justify-content: center;
+                padding: 15px 5px;
+            }
+            
+            .sidebar li a span {
+                display: none;
+            }
+            
+            .sidebar li i {
+                margin: 0;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .banner {
+                height: 300px;
+            }
+            
+            .banner h1 {
+                font-size: 32px;
+            }
+            
+            .banner p {
+                font-size: 16px;
+            }
+            
+            .content-wrapper {
+                margin-left: 70px;
+                padding: 15px;
+            }
+            
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .mood-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .bottom-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            /* Mobile footer adjustments */
+            footer {
+                margin-top: 30px;
+                padding: 20px 15px;
+            }
+            
+            footer h3 {
+                font-size: 1.2rem;
+            }
+            
+            footer p {
+                font-size: 0.85rem;
+            }
+            
+            .quote {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--pale-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-purple);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card,
+        .mood-section,
+        .panel-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>LUMINA</h1>
+            <div class="tagline">Mental Wellness</div>
+        </div>
+        <ul>
+
+            
+
+            <ul class="sidebar-menu">
+    <li class="active" data-page="home">
+        <a href="dashboard.html"><i class='bx bx-home'></i><span>Dashboard</span></a>
+    </li>
+
+    <li data-page="diary">
+        <a href="journal.html"><i class='bx bx-book-heart'></i><span>Journal</span></a>
+    </li>
+
+    <li data-page="playlist">
+        <a href="music.html"><i class='bx bx-music'></i><span>Mindful Music</span></a>
+    </li>
+
+    <li data-page="art-therapy">
+        <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
+    </li>
+
+    <li data-page="reflection">
+        <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
+    </li>
+
+    <li data-page="meditation">
+        <a href="meditation.html"><i class='bx bx-spa'></i><span>Meditation</span></a>
+    </li>
+
+    <li data-page="profile">
+        <a href="profile.html"><i class='bx bx-user-circle'></i><span>Profile</span></a>
+    </li>
+
+    <li data-page="logout" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+        <a href="logout.html"><i class='bx bx-log-out'></i><span>Sign Out</span></a>
+    </li>
+</ul>
+
+            </div>
+<div class="main-content">
+        <!-- Banner Section -->
+        <div class="banner">
+            <!-- Replace the image source with your actual image file -->
+            <img src="result.jpg" alt="Mental Health Banner" class="banner-image">
+            <div class="banner-content">
+                <h1>Your Journey to Mental Wellness Starts Here</h1>
+                <p>Find balance, peace, and happiness through guided meditation, journaling, and mindfulness practices.</p>
+                <a href="#" class="banner-button">Begin Your Journey</a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="header">
+                <h2>Welcome Back! 🌸</h2>
+                <p class="date" id="currentDate"></p>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-number" id="diaryCount">24</div>
+                    <div class="stat-label">Journal Entries This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reflectionCount">18</div>
+                    <div class="stat-label">Mindful Reflections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="meditationCount">12</div>
+                    <div class="stat-label">Meditation Sessions</div>
+                </div>
+            </div>
+
+            <div class="mood-section">
+                <div class="mood-question">How are you feeling today? 💜</div>
+                <div class="mood-options">
+                    <button class="mood-btn" data-mood="joyful">😊 Joyful</button>
+                    <button class="mood-btn" data-mood="peaceful">🕊️ Peaceful</button>
+                    <button class="mood-btn" data-mood="grateful">🙏 Grateful</button>
+                    <button class="mood-btn" data-mood="contemplative">🤔 Thoughtful</button>
+                    <button class="mood-btn" data-mood="melancholy">😔 Melancholy</button>
+                    <button class="mood-btn" data-mood="anxious">😰 Anxious</button>
+                </div>
+                <div class="mood-result hidden" id="moodResult">
+                    <h3 id="moodText"></h3>
+                    <button class="save-mood-btn" onclick="saveMood()">Save Today's Mood</button>
+                </div>
+            </div>
+
+            <div class="bottom-row">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <i class='bx bx-message-dots'></i>
+                        Recent Reflections
+                    </div>
+                    <div id="reflectionsList">
+                        <div class="reflection-card">
+                            <div class="reflection-header">Morning Meditation • 2 hours ago</div>
+                            <div class="reflection-content">
+                                Started my day with mindfulness practice. Feeling centered and grateful for this moment of peace.
+                            </div>
+                            <div class="tags">
+                                <span class="tag">Peaceful</span>
+                                <span class="tag">#mindfulness</span>
+                                <span class="tag">#gratitude</span>
+                            </div>
+                        </div>
+                        <div class="reflection-card">
+                            <div class="reflection-header">Evening Thoughts • Yesterday</div>
+                            <div class="reflection-content">
+                                Reflecting on the beauty in small moments today. The sunset reminded me to pause and appreciate.
+                            </div>
+                            <div class="tags">
+                                <span class="tag">Contemplative</span>
+                                <span class="tag">#beauty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <i class='bx bx-bulb'></i>
+                        Daily Wellness
+                    </div>
+                    <div class="wellness-tip">
+                        <div class="wellness-tip-header">Mindful Moment</div>
+                        <div>Take three deep breaths and notice how your body feels right now. What sensations do you observe?</div>
+                    </div>
+                    <div class="wellness-tip">
+                        <div class="wellness-tip-header">Gratitude Practice</div>
+                        <div>Write down three things you're grateful for today, no matter how small they may seem.</div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <i class='bx bx-heart'></i>
+                        Quick Actions
+                    </div>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="openNewEntryModal()">
+                            <i class='bx bx-plus'></i>
+                            New Journal Entry
+                        </button>
+                        <button class="action-btn">
+                            <i class='bx bx-play-circle'></i>
+                            5-Min Meditation
+                        </button>
+                        <button class="action-btn">
+                            <i class='bx bx-palette'></i>
+                            Art Therapy Session
+                        </button>
+                        <button class="action-btn">
+                            <i class='bx bx-music'></i>
+                            Calming Sounds
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <h3>Need Help?</h3>
+                <p>If you are in crisis, please call your local hotline or reach out for professional support.</p>
+
+                <div>
+                    <a href="tel:123456789" class="button">📞 Call Now</a>
+                    <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
+                </div>
+
+                <p class="quote">
+                    "Healing doesn't mean the damage never existed. It means the damage no longer controls our lives."
+                </p>
+
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                    <a href="#"><i class='bx bxl-linkedin-square'></i></a>
+                </div>
+
+                <p class="copyright">
+                    © 2025 LUMINA | Privacy Policy | Disclaimer
+                </p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- New Journal Entry Modal -->
+    <div class="modal" id="newEntryModal">
+        <div class="modal-content">
+            <h3>New Journal Entry</h3>
+            <textarea placeholder="How are you feeling today? What's on your mind?"></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeNewEntryModal()">Cancel</button>
+                <button class="modal-btn save" onclick="saveNewEntry()">Save Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set current date with better formatting
+        const now = new Date();
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
+        // Enhanced mood tracking
+        let selectedMood = null;
+        const moodMessages = {
+            joyful: "Wonderful! Your joyful energy is radiating positive vibes! ✨",
+            peaceful: "Beautiful! Inner peace is a precious gift to yourself. 🕊️",
+            grateful: "How lovely! Gratitude opens the heart to abundance. 🙏",
+            contemplative: "Perfect for reflection! Deep thinking leads to wisdom. 🤔",
+            melancholy: "It's okay to feel this way. Be gentle with yourself today. 💜",
+            anxious: "Take a moment to breathe. You're stronger than you know. 🌱"
+        };
+
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove previous selection
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                
+                // Add selection to clicked button
+                this.classList.add('selected');
+                selectedMood = this.dataset.mood;
+                
+                // Show result with personalized message
+                const moodResult = document.getElementById('moodResult');
+                const moodText = document.getElementById('moodText');
+                
+                moodText.textContent = moodMessages[selectedMood] || `Today you're feeling ${selectedMood}`;
+                moodResult.classList.remove('hidden');
+            });
+        });
+
+        function saveMood() {
+            if (selectedMood) {
+                // Create notification-style feedback
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+                    z-index: 1001;
+                    font-weight: 500;
+                `;
+                notification.textContent = `Mood "${selectedMood}" saved! 💜`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+
+                // Update mood count or other stats
+                const count = document.getElementById('reflectionCount');
+                count.textContent = parseInt(count.textContent) + 1;
+            }
+        }
+
+        // Enhanced navigation with smooth transitions
+        document.querySelectorAll('.sidebar li').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Handle navigation
+                const page = this.dataset.page;
+                if (page === 'logout') {
+                    if (confirm('Are you sure you want to sign out?')) {
+                        // Add sign out animation
+                        document.body.style.opacity = '0';
+                        setTimeout(() => {
+                            alert('Signed out successfully! Take care of yourself. 💜');
+                            location.reload();
+                        }, 500);
+                    }
+                } else {
+                    console.log(`Navigating to ${page}`);
+                    // Here you would typically navigate to different pages
+                    // For demo, just show a message
+                    if (page !== 'home') {
+                        const notification = document.createElement('div');
+                        notification.style.cssText = `
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            background: white;
+                            color: var(--text-dark);
+                            padding: 15px 25px;
+                            border-radius: 10px;
+                            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+                            z-index: 1001;
+                            font-weight: 500;
+                        `;
+                        notification.textContent = `Navigating to ${page} page...`;
+                        document.body.appendChild(notification);
+                        
+                        setTimeout(() => {
+                            notification.remove();
+                        }, 3000);
+                    }
+                }
+            });
+        });
+
+        // Modal functions
+        function openNewEntryModal() {
+            document.getElementById('newEntryModal').classList.add('active');
+        }
+
+        function closeNewEntryModal() {
+            document.getElementById('newEntryModal').classList.remove('active');
+        }
+
+        function saveNewEntry() {
+            const textarea = document.querySelector('#newEntryModal textarea');
+            const entryText = textarea.value.trim();
+            
+            if (entryText) {
+                // Create a new reflection card
+                const reflectionsList = document.getElementById('reflectionsList');
+                const newReflection = document.createElement('div');
+                newReflection.className = 'reflection-card';
+                
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                newReflection.innerHTML = `
+                    <div class="reflection-header">New Entry • ${timeString}</div>
+                    <div class="reflection-content">${entryText}</div>
+                    <div class="tags">
+                        <span class="tag">New</span>
+                        <span class="tag">#journal</span>
+                    </div>
+                `;
+                
+                // Add to the top of the list
+                reflectionsList.insertBefore(newReflection, reflectionsList.firstChild);
+                
+                // Update journal count
+                const count = document.getElementById('diaryCount');
+                count.textContent = parseInt(count.textContent) + 1;
+                
+                // Close modal and show success message
+                closeNewEntryModal();
+                textarea.value = '';
+                
+                // Show success notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(139, 95, 191, 0.3);
+                    z-index: 1001;
+                    font-weight: 500;
+                `;
+                notification.textContent = 'Journal entry saved! 📝';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            } else {
+                alert('Please write something before saving.');
+            }
+        }
+        function showMessage() {
+    document.getElementById("message").innerText = "Keep creating art and express yourself!";
+}
+
+
+
+        // Close modal when clicking outside
+        document.getElementById('newEntryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNewEntryModal();
+            }
+        });
+    </script>
+</body>
+</html>
