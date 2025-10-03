@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Mental Wellness - Account Management</title>
+    <title>Sign Out - LUMINA</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
     <style>
         :root {
             --primary-purple: #8B5FBF;
@@ -14,8 +19,8 @@
             --text-dark: #2D1B3D;
             --text-light: #6B46C1;
             --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
-            --card-shadow: 0 6px 18px rgba(139, 95, 191, 0.12);
-            --hover-shadow: 0 10px 28px rgba(139, 95, 191, 0.2);
+            --card-shadow: 0 10px 25px rgba(139, 95, 191, 0.15);
+            --hover-shadow: 0 15px 35px rgba(139, 95, 191, 0.25);
         }
 
         * {
@@ -25,663 +30,711 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
+            overflow-x: hidden;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
             color: white;
-            padding: 2rem 0;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            box-shadow: var(--card-shadow);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .sidebar h1 {
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 300;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
             letter-spacing: 3px;
-            margin-bottom: 0.5rem;
-            padding: 0 2rem;
+            background: linear-gradient(45deg, #fff, #E8D5F2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .sidebar .subtitle {
-            text-align: center;
-            font-size: 0.9rem;
+        .sidebar .tagline {
+            font-size: 12px;
             opacity: 0.8;
-            margin-bottom: 2rem;
-            padding: 0 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            border: none;
-            background: none;
-            width: 100%;
-            cursor: pointer;
+        .sidebar ul {
+            list-style: none;
+            padding: 20px 0;
         }
 
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            padding-left: 2.5rem;
-        }
-
-        .nav-item.active {
-            background: rgba(255, 255, 255, 0.15);
-            border-right: 4px solid white;
-        }
-
-        .nav-item i {
-            margin-right: 1rem;
-            font-size: 1.1rem;
-            width: 20px;
-        }
-
-        .sign-out {
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 2rem;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 2rem;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .account-management-container {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .page-title {
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-
-        .page-subtitle {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            opacity: 0.8;
-        }
-
-        /* Action Cards */
-        .action-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+        .sidebar li {
+            margin: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .action-card:hover {
-            box-shadow: var(--hover-shadow);
-            transform: translateY(-5px);
+        .sidebar li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
         }
 
-        .action-card::before {
+        .sidebar li:hover::before {
+            left: 100%;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .sidebar li:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar li.active {
+            background: rgba(255,255,255,0.2);
+            box-shadow: inset 3px 0 0 white;
+        }
+
+        .sidebar li i {
+            margin-right: 12px;
+            font-size: 20px;
+            width: 24px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        /* Logout Container Styles */
+        .logout-container {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 25px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logout-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 6px;
             background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
+        .logout-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            color: var(--primary-purple);
+            animation: pulse 2s infinite;
         }
 
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .logout-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary-purple), var(--dark-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logout-message {
+            font-size: 18px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .logout-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 1.5rem;
+            gap: 8px;
+            min-width: 160px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
             color: white;
+            box-shadow: 0 4px 15px rgba(139, 95, 191, 0.3);
         }
 
-        .signout-icon {
-            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
-        }
-
-        .delete-icon {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-description {
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            min-width: 150px;
-        }
-
-        .btn-signout {
-            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
-            color: white;
-        }
-
-        .btn-signout:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(231, 76, 60, 0.3);
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 95, 191, 0.4);
         }
 
         .btn-secondary {
             background: white;
-            color: var(--primary-purple);
-            border: 2px solid var(--primary-purple);
+            color: var(--text-dark);
+            border: 2px solid var(--pale-purple);
         }
 
         .btn-secondary:hover {
-            background: var(--primary-purple);
-            color: white;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: var(--hover-shadow);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-        }
-
-        .modal-text {
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-light);
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: background 0.3s ease;
-        }
-
-        .close-modal:hover {
             background: var(--pale-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(139, 95, 191, 0.2);
         }
 
-        /* Success Message */
-        .success-message {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 15px;
+        .logout-features {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--pale-purple);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
             text-align: center;
-            margin-bottom: 2rem;
-            display: none;
-            animation: fadeInDown 0.5s ease;
-        }
-
-        .success-message.active {
-            display: block;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Warning Box */
-        .warning-box {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            padding: 1.5rem;
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            background: linear-gradient(135deg, #F8F4FF, var(--pale-purple));
+            transition: all 0.3s;
         }
 
-        .warning-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(139, 95, 191, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary-purple);
+        }
+
+        .feature-text {
+            font-size: 12px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Footer Styles - Matched to Dashboard Size */
+        footer {
+            margin-top: 40px; /* Same as dashboard */
+            background: white;
+            padding: 25px; /* Same as dashboard */
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        footer h3 {
+            color: var(--text-dark);
+            margin-bottom: 12px; /* Same as dashboard */
+            font-size: 1.4rem; /* Same as dashboard */
+        }
+
+        footer p {
+            color: var(--text-dark);
+            margin: 6px 0; /* Same as dashboard */
+            font-size: 0.9rem; /* Same as dashboard */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer a.button {
+            display: inline-block;
+            margin: 4px 8px; /* Same as dashboard */
+            padding: 8px 12px; /* Same as dashboard */
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            font-size: 0.9rem; /* Added for better proportion */
+        }
+
+        footer a.button:hover {
+            background: var(--dark-purple);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .quote {
+            margin-top: 18px; /* Same as dashboard */
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1rem; /* Same as dashboard */
+            line-height: 1.4; /* Added for better readability */
+        }
+
+        .social-links {
+            margin-top: 15px; /* Same as dashboard */
+        }
+
+        .social-links a {
+            margin: 0 8px; /* Same as dashboard */
+            font-size: 1.4rem; /* Same as dashboard */
+            color: var(--dark-purple);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .copyright {
+            margin-top: 20px; /* Same as dashboard */
+            font-size: 0.8rem; /* Same as dashboard */
+            color: gray;
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-content {
+                margin-left: 280px;
+            }
+        }
+
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+                width: 70px;
+                padding: 0;
             }
-
-            .sidebar.active {
-                transform: translateX(0);
+            
+            .sidebar-header {
+                padding: 20px 10px;
             }
-
+            
+            .sidebar h1 {
+                font-size: 16px;
+                writing-mode: vertical-rl;
+                text-orientation: mixed;
+            }
+            
+            .sidebar .tagline {
+                display: none;
+            }
+            
+            .sidebar li a {
+                justify-content: center;
+                padding: 15px 5px;
+            }
+            
+            .sidebar li a span {
+                display: none;
+            }
+            
+            .sidebar li i {
+                margin: 0;
+            }
+            
             .main-content {
-                margin-left: 0;
-                padding: 1rem;
+                margin-left: 70px;
             }
-
-            .action-card {
-                padding: 2rem;
+            
+            .content-wrapper {
+                padding: 20px;
             }
-
-            .card-header {
+            
+            .logout-container {
+                padding: 40px 30px;
+                margin: 20px 0;
+            }
+            
+            .logout-buttons {
                 flex-direction: column;
-                text-align: center;
+                align-items: center;
             }
-
-            .card-icon {
-                margin-right: 0;
-                margin-bottom: 1rem;
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
             }
-
-            .modal-content {
-                padding: 2rem;
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
-
-            .modal-buttons {
-                flex-direction: column;
+            
+            footer {
+                margin: 0 20px 20px;
+                padding: 25px 15px;
+            }
+            
+            footer h3 {
+                font-size: 1.2rem;
+            }
+            
+            footer p {
+                font-size: 0.85rem;
+            }
+            
+            .quote {
+                font-size: 0.9rem;
             }
         }
 
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .spinner {
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-right: 0.5rem;
+        ::-webkit-scrollbar-track {
+            background: var(--pale-purple);
+            border-radius: 10px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-purple);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logout-container {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        footer {
+            animation: fadeInUp 0.8s ease forwards;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Sidebar -->
+
     <div class="sidebar">
-        <h1>LUMINA</h1>
-        <div class="subtitle">MENTAL WELLNESS</div>
-        
-        <nav>
-            <a href="#" class="nav-item">
-                <i class="fas fa-home"></i>
-                Dashboard
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-book"></i>
-                Journal
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-music"></i>
-                Mindful Music
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-palette"></i>
-                Art Therapy
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-clock"></i>
-                Reflections
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-leaf"></i>
-                Meditation
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-user"></i>
-                Profile
-            </a>
-            
-            <div class="sign-out">
-                <a href="#" class="nav-item active">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Sign Out
-                </a>
-            </div>
-        </nav>
+        <div class="sidebar-header">
+            <h1>LUMINA</h1>
+            <div class="tagline">Mental Wellness</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li data-page="home">
+                <a href="dashboard.html"><i class='bx bx-home'></i><span>Dashboard</span></a>
+            </li>
+            <li data-page="diary">
+                <a href="journal.html"><i class='bx bx-book-heart'></i><span>Journal</span></a>
+            </li>
+            <li data-page="playlist">
+                <a href="music.html"><i class='bx bx-music'></i><span>Mindful Music</span></a>
+            </li>
+            <li data-page="art-therapy">
+                <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
+            </li>
+            <li data-page="reflection">
+                <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
+            </li>
+            <li data-page="meditation">
+                <a href="meditation.html"><i class='bx bx-spa'></i><span>Meditation</span></a>
+            </li>
+            <li data-page="profile">
+                <a href="profile.html"><i class='bx bx-user-circle'></i><span>Profile</span></a>
+            </li>
+            <li class="active" data-page="logout" style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="logout.html"><i class='bx bx-log-out'></i><span>Sign Out</span></a>
+            </li>
+        </ul>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <div class="account-management-container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Account Management</h1>
-                <p class="page-subtitle">Manage your account settings and data</p>
-            </div>
-
-            <!-- Success Message -->
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle"></i>
-                <span>Action completed successfully!</span>
-            </div>
-
-            <!-- Sign Out Card -->
-            <div class="action-card">
-                <div class="card-header">
-                    <div class="card-icon signout-icon">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </div>
-                    <div>
-                        <h2 class="card-title">Sign Out</h2>
-                    </div>
-                </div>
-                <p class="card-description">
-                    Sign out of your current session while keeping your account and all data intact. 
-                    You can sign back in anytime using your credentials.
-                </p>
-                <button class="btn btn-signout" onclick="signOut()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Sign Out Now
-                </button>
-            </div>
-
-            <!-- Delete Account Card -->
-            <div class="action-card">
-                <div class="card-header">
-                    <div class="card-icon delete-icon">
-                        <i class="fas fa-user-times"></i>
-                    </div>
-                    <div>
-                        <h2 class="card-title">Delete Account</h2>
-                    </div>
+        <div class="content-wrapper">
+            <div class="logout-container">
+                <div class="logout-icon">
+                    <i class='bx bx-log-out-circle'></i>
                 </div>
                 
-                <div class="warning-box">
-                    <i class="fas fa-exclamation-triangle warning-icon"></i>
-                    <div>
-                        <strong>Warning:</strong> This action is permanent and cannot be undone. 
-                        All your data, progress, and achievements will be permanently deleted.
-                    </div>
+                <h1 class="logout-title">Ready to Sign Out?</h1>
+                
+                <p class="logout-message">
+                    You're about to leave your safe space. Remember, your mental wellness journey continues even when you're away. 
+                    Take the peace you've cultivated with you. 💜
+                </p>
+
+                <div class="logout-buttons">
+                    <button class="btn btn-primary" onclick="confirmLogout()">
+                        <i class='bx bx-log-out'></i>
+                        Yes, Sign Out
+                    </button>
+                    <button class="btn btn-secondary" onclick="goBackToDashboard()">
+                        <i class='bx bx-arrow-back'></i>
+                        Back to Dashboard
+                    </button>
                 </div>
 
-                <p class="card-description">
-                    Permanently delete your Lumina account and all associated data. This includes your journal entries, 
-                    meditation progress, art therapy sessions, and all personal information. This action cannot be reversed.
-                </p>
-                
-                <button class="btn btn-danger" onclick="showDeleteModal()">
-                    <i class="fas fa-trash-alt"></i>
-                    Delete My Account
-                </button>
+                <div class="logout-features">
+                    <h3 style="color: var(--text-dark); margin-bottom: 15px; font-size: 18px;">
+                        Quick Wellness Tips for Your Day
+                    </h3>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">💧</div>
+                            <div class="feature-text">Stay Hydrated</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌿</div>
+                            <div class="feature-text">Take Breaks</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-text">Digital Detox</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌞</div>
+                            <div class="feature-text">Get Sunlight</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeDeleteModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="modal-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+        <!-- Updated Footer Section - Matching Dashboard Size -->
+        <footer>
+            <h3>Need Help?</h3>
+            <p>If you are in crisis, please call your local hotline or reach out for professional support.</p>
+
+            <div>
+                <a href="tel:123456789" class="button">📞 Call Now</a>
+                <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
             </div>
-            
-            <h3 class="modal-title">Permanently Delete Account?</h3>
-            
-            <p class="modal-text">
-                Are you absolutely sure you want to delete your account? This will permanently remove:
-                <br><br>
-                • All journal entries and personal reflections<br>
-                • Meditation progress and achievements<br>
-                • Art therapy sessions and creations<br>
-                • Personal profile and preferences<br>
-                • All uploaded documents and files
-                <br><br>
-                <strong>This action cannot be undone.</strong>
+
+            <p class="quote">
+                "Healing doesn't mean the damage never existed. It means the damage no longer controls our lives."
             </p>
-            
-            <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="closeDeleteModal()">
-                    Cancel
-                </button>
-                <button class="btn btn-danger" onclick="deleteAccount()">
-                    <i class="fas fa-trash-alt"></i>
-                    Delete Permanently
-                </button>
+
+            <div class="social-links">
+                <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                <a href="#"><i class='bx bxl-linkedin-square'></i></a>
             </div>
-        </div>
+
+            <p class="copyright">
+                © 2025 LUMINA | Privacy Policy | Disclaimer
+            </p>
+        </footer>
     </div>
 
     <script>
-        // Sign out functionality
-        function signOut() {
-            const button = event.target;
-            const originalContent = button.innerHTML;
-            
-            // Add loading state
-            button.innerHTML = '<div class="spinner"></div>Signing out...';
-            button.classList.add('loading');
-            
-            // Simulate sign out process
-            setTimeout(() => {
-                showSuccessMessage('Successfully signed out!');
-                button.innerHTML = originalContent;
-                button.classList.remove('loading');
+        // Set active state in sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set logout as active
+            const logoutItem = document.querySelector('[data-page="logout"]');
+            if (logoutItem) {
+                logoutItem.classList.add('active');
+            }
+        });
+
+        // Enhanced logout confirmation
+        function confirmLogout() {
+            // Create a beautiful confirmation modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(139, 95, 191, 0.2);
+                backdrop-filter: blur(10px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white;
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                max-width: 400px;
+                width: 90%;
+                box-shadow: 0 20px 40px rgba(139, 95, 191, 0.3);
+                animation: fadeInUp 0.3s ease;
+            `;
+
+            modalContent.innerHTML = `
+                <div style="font-size: 60px; color: var(--primary-purple); margin-bottom: 20px;">👋</div>
+                <h2 style="color: var(--text-dark); margin-bottom: 15px; font-size: 24px;">One Last Check-in</h2>
+                <p style="color: var(--text-dark); margin-bottom: 25px; line-height: 1.6;">
+                    How are you feeling right now? Take a deep breath before you go.
+                </p>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 25px;">
+                    <button onclick="handleQuickMood('good')" style="padding: 10px 20px; border: 2px solid var(--pale-purple); border-radius: 25px; background: white; color: var(--text-dark); cursor: pointer; transition: all 0.3s;">
+                        😊 I'm good
+                    </button>
+                    <button onclick="handleQuickMood('okay')" style="padding: 10px 20px; border: 2px solid var(--pale-purple); border-radius: 25px; background: white; color: var(--text-dark); cursor: pointer; transition: all 0.3s;">
+                        😐 I'm okay
+                    </button>
+                    <button onclick="handleQuickMood('tired')" style="padding: 10px 20px; border: 2px solid var(--pale-purple); border-radius: 25px; background: white; color: var(--text-dark); cursor: pointer; transition: all 0.3s;">
+                        😴 I'm tired
+                    </button>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="proceedWithLogout()" style="padding: 12px 25px; background: linear-gradient(45deg, var(--primary-purple), var(--light-purple)); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">
+                        Sign Out Anyway
+                    </button>
+                    <button onclick="closeModal()" style="padding: 12px 25px; background: #E5E7EB; color: var(--text-dark); border: none; border-radius: 25px; cursor: pointer; font-weight: 600;">
+                        Stay Logged In
+                    </button>
+                </div>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            function closeModal() {
+                document.body.removeChild(modal);
+            }
+
+            window.handleQuickMood = function(mood) {
+                const messages = {
+                    good: "Wonderful! Ending on a positive note. 🌟",
+                    okay: "Thanks for checking in. Be gentle with yourself. 💜",
+                    tired: "Rest is important. Hope you get some good rest. 🌙"
+                };
                 
-                // Redirect to login page after delay
+                // Save quick mood check (could be stored in localStorage)
+                const quickCheck = {
+                    mood: mood,
+                    timestamp: new Date().toISOString(),
+                    message: messages[mood]
+                };
+                
+                // Show confirmation
+                modalContent.innerHTML = `
+                    <div style="font-size: 60px; color: var(--primary-purple); margin-bottom: 20px;">💜</div>
+                    <h2 style="color: var(--text-dark); margin-bottom: 15px; font-size: 24px;">${messages[mood]}</h2>
+                    <p style="color: var(--text-dark); margin-bottom: 25px; line-height: 1.6;">
+                        Thank you for checking in with yourself.
+                    </p>
+                    <button onclick="proceedWithLogout()" style="padding: 12px 30px; background: linear-gradient(45deg, var(--primary-purple), var(--light-purple)); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; margin-top: 10px;">
+                        Continue Sign Out
+                    </button>
+                `;
+            };
+
+            window.closeModal = closeModal;
+            window.proceedWithLogout = function() {
+                // Add logout animation
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.5s ease';
+                
                 setTimeout(() => {
-                    alert('Redirecting to login page...\n(In a real app, this would redirect to the login screen)');
-                }, 1500);
-            }, 2000);
+                    // Clear any stored data if needed
+                    localStorage.removeItem('luminaSession');
+                    
+                    // Redirect to login or home page
+                    alert('You have been signed out successfully. Take care! 💜');
+                    window.location.href = 'index.html'; // Change to your login page
+                }, 500);
+            };
         }
 
-        // Show delete confirmation modal
-        function showDeleteModal() {
-            document.getElementById('deleteModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
+        // Go back to dashboard
+        function goBackToDashboard() {
+            window.location.href = 'dashboard.html';
         }
 
-        // Close delete confirmation modal
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Delete account functionality
-        function deleteAccount() {
-            const button = event.target;
-            const originalContent = button.innerHTML;
-            
-            // Add loading state
-            button.innerHTML = '<div class="spinner"></div>Deleting...';
-            button.classList.add('loading');
-            
-            // Simulate account deletion process
-            setTimeout(() => {
-                closeDeleteModal();
-                showSuccessMessage('Account deleted successfully!');
+        // Add some interactive elements
+        document.querySelectorAll('.feature-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const tips = {
+                    '💧': "💧 Remember to drink water throughout the day! Staying hydrated helps with mental clarity.",
+                    '🌿': "🌿 Take short breaks every hour. Stretch, breathe, and reset your focus.",
+                    '📱': "📱 Try a digital detox - step away from screens for a while each day.",
+                    '🌞': "🌞 Get some sunlight! Even 10 minutes can boost your mood and vitamin D levels."
+                };
                 
-                // Show final message and redirect
-                setTimeout(() => {
-                    alert('Your account has been permanently deleted.\n\nThank you for using Lumina Mental Wellness. We hope you found value in your wellness journey.\n\n(In a real app, this would redirect to a goodbye page or home page)');
-                }, 2000);
-            }, 3000);
-        }
-
-        // Show success message
-        function showSuccessMessage(message) {
-            const successMsg = document.getElementById('successMessage');
-            successMsg.querySelector('span').textContent = message;
-            successMsg.classList.add('active');
-            
-            setTimeout(() => {
-                successMsg.classList.remove('active');
-            }, 4000);
-        }
-
-        // Navigation functionality
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.textContent.trim() === 'Sign Out') return; // Don't change active state for sign out
-                
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
+                const icon = this.querySelector('.feature-icon').textContent;
+                if (tips[icon]) {
+                    alert(tips[icon]);
+                }
             });
         });
 
-        // Close modal when clicking outside
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDeleteModal();
-            }
-        });
-
-        // Handle escape key to close modal
+        // Add keyboard navigation
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeDeleteModal();
+                goBackToDashboard();
             }
         });
-
-        // Mobile menu toggle (if needed)
-        function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        }
     </script>
 </body>
 </html>

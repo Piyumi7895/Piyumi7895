@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - LUMINA</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <style>
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B794C8;
+            --pale-purple: #E8D5F2;
+            --dark-purple: #6A4C93;
+            --accent-lavender: #C8B2DB;
+            --text-dark: #2D1B3D;
+            --text-light: #6B46C1;
+            --bg-gradient: linear-gradient(135deg, #F3E8FF 0%, #EDE9FE 50%, #DDD6FE 100%);
+            --card-shadow: 0 10px 25px rgba(139, 95, 191, 0.15);
+            --hover-shadow: 0 15px 35px rgba(139, 95, 191, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Navigation */
+        .header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            padding: 20px 40px;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #fff, #E8D5F2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo .tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .login-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Banner Styles */
+        .banner {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            background: var(--light-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .banner h1 {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .banner p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .banner-button {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .banner-button:hover {
+            background: rgba(245, 242, 242, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .content-wrapper {
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Blog Header */
+        .blog-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .blog-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--light-purple));
+            border-radius: 2px;
+        }
+
+        .blog-header h2 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-purple), var(--dark-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .blog-header p {
+            font-size: 18px;
+            color: var(--text-light);
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .blog-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image {
+            transform: scale(1.05);
+        }
+
+        .blog-category {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
+        }
+
+        .blog-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-excerpt {
+            font-size: 15px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--pale-purple);
+        }
+
+        .blog-date {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-purple);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .read-more:hover {
+            color: var(--dark-purple);
+            transform: translateX(5px);
+        }
+
+        .read-more i {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+
+        /* Login Prompt */
+        .login-prompt {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border-left: 6px solid var(--primary-purple);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-prompt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--pale-purple), transparent);
+            border-radius: 0 0 0 100%;
+        }
+
+        .login-prompt h3 {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .login-prompt p {
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            opacity: 0.8;
+            font-size: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-btn-large {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            padding: 14px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(139, 95, 191, 0.3);
+            font-size: 16px;
+        }
+
+        .login-btn-large:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(139, 95, 191, 0.4);
+        }
+
+        .login-btn-large i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 60px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        footer h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        footer p {
+            color: var(--text-dark);
+            margin: 8px 0;
+            font-size: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer a.button {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, var(--primary-purple), var(--light-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        footer a.button:hover {
+            background: var(--dark-purple);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .quote {
+            margin-top: 25px;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            margin: 0 10px;
+            font-size: 1.6rem;
+            color: var(--dark-purple);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .copyright {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: gray;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 30px;
+            }
+            
+            .content-wrapper {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .banner {
+                height: 350px;
+            }
+            
+            .banner h1 {
+                font-size: 38px;
+            }
+            
+            .banner p {
+                font-size: 18px;
+            }
+            
+            .content-wrapper {
+                padding: 30px 20px;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .blog-header h2 {
+                font-size: 32px;
+            }
+            
+            footer {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner {
+                height: 300px;
+            }
+            
+            .banner h1 {
+                font-size: 32px;
+            }
+            
+            .banner p {
+                font-size: 16px;
+            }
+            
+            .login-prompt {
+                padding: 30px 20px;
+            }
+            
+            .login-prompt h3 {
+                font-size: 24px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--pale-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-purple);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .blog-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .blog-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .blog-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .blog-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        .blog-card:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        
+        .blog-card:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="dashboard.html" class="logo">
+                <h1>LUMINA</h1>
+                <div class="tagline">Mental Wellness</div>
+            </a>
+            
+            <nav class="nav-links">
+               
+                <a href="login.html" class="login-btn">
+                    <i class='bx bx-log-in'></i>
+                    Login
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner Section -->
+    <div class="banner">
+        <img src="blog.jpg" alt="Mental Health Blog Banner" class="banner-image">
+        <div class="banner-content">
+            <h1>LUMINA</h1>
+            <p>Insights, tips, and stories for your mental wellness journey</p>
+            <a href="#featured" class="banner-button">Explore Articles</a>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="blog-header">
+            <h2>Mental Wellness Insights</h2>
+            <p>Discover articles to support your mental health journey</p>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid" id="featured">
+            <!-- Blog Post 1 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Meditation" class="blog-image">
+                    <span class="blog-category">Meditation</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">5 Meditation Techniques for Beginners</h3>
+                    <p class="blog-excerpt">Discover simple yet effective meditation practices that can help calm your mind and reduce stress in just 10 minutes a day. These techniques are perfect for those new to meditation.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">March 15, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 2 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Mindfulness" class="blog-image">
+                    <span class="blog-category">Mindfulness</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">The Science of Mindfulness and Stress Reduction</h3>
+                    <p class="blog-excerpt">Explore how mindfulness practices physically change your brain and help manage stress more effectively in daily life. Learn about the neuroscience behind mindfulness.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">March 10, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 3 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Journaling" class="blog-image">
+                    <span class="blog-category">Journaling</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">Therapeutic Writing: How Journaling Heals</h3>
+                    <p class="blog-excerpt">Learn how expressive writing can help process emotions, reduce anxiety, and promote emotional healing over time. Discover different journaling techniques.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">March 5, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 4 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Sleep" class="blog-image">
+                    <span class="blog-category">Sleep</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">Improving Sleep Quality for Better Mental Health</h3>
+                    <p class="blog-excerpt">Discover the powerful connection between sleep and mental wellness, plus practical tips for improving your sleep routine and getting better rest.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">February 28, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 5 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Anxiety" class="blog-image">
+                    <span class="blog-category">Anxiety</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">Managing Anxiety in Uncertain Times</h3>
+                    <p class="blog-excerpt">Practical strategies to cope with anxiety when facing uncertainty, including grounding techniques and cognitive reframing exercises.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">February 22, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 6 -->
+            <div class="blog-card">
+                <div class="blog-image-container">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Self-Care" class="blog-image">
+                    <span class="blog-category">Self-Care</span>
+                </div>
+                <div class="blog-content">
+                    <h3 class="blog-title">Creating a Sustainable Self-Care Routine</h3>
+                    <p class="blog-excerpt">Learn how to build a self-care practice that nourishes your mental health without feeling like another item on your to-do list.</p>
+                    <div class="blog-meta">
+                        <span class="blog-date">February 15, 2025</span>
+                        <a href="#" class="read-more">Read More <i class='bx bx-chevron-right'></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Single Login Prompt -->
+        <div class="login-prompt">
+            <h3>Join Our Community</h3>
+            <p>Sign in to save your favorite articles, track your reading progress, and join the conversation with other mental wellness advocates.</p>
+            <a href="login.html" class="login-btn-large">
+                <i class='bx bx-log-in'></i>
+                Login to Your Account
+            </a>
+        </div>
+
+        <footer>
+            <h3>Need Help?</h3>
+            <p>If you are in crisis, please call your local hotline or reach out for professional support.</p>
+
+            <div>
+                <a href="tel:123456789" class="button">📞 Call Now</a>
+                <a href="mailto:support@lumina.com" class="button">📧 Email Support</a>
+            </div>
+
+            <p class="quote">
+                "Healing doesn't mean the damage never existed. It means the damage no longer controls our lives."
+            </p>
+
+            <div class="social-links">
+                <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                <a href="#"><i class='bx bxl-linkedin-square'></i></a>
+            </div>
+
+            <p class="copyright">
+                © 2025 LUMINA | Privacy Policy | Disclaimer
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Set active state in navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for banner button
+            document.querySelector('.banner-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('featured').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Add click animation to blog cards
+            document.querySelectorAll('.blog-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.read-more')) {
+                        this.style.transform = 'scale(0.98)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 200);
+                    }
+                });
+            });
+            
+            // Add parallax effect to banner
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const banner = document.querySelector('.banner');
+                banner.style.transform = `translateY(${scrolled * 0.5}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lumina - Meditation</title>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 :root {
     --primary-purple: #8B5FBF;
@@ -655,7 +657,7 @@ footer a.button:hover {
             <li data-page="art-therapy">
                 <a href="arttheraphy.html"><i class='bx bx-palette'></i><span>Art Therapy</span></a>
             </li>
-            <li class="active" data-page="reflection">
+            <li data-page="reflection">
                 <a href="Reflection.html"><i class='bx bx-brain'></i><span>Reflections</span></a>
             </li>
             <li class="active" data-page="meditation">
@@ -1000,6 +1002,107 @@ footer a.button:hover {
         function joinCommunity() {
             alert('👥 Join our meditation community to share experiences and get support from fellow practitioners!');
         }
+        {
+let meditationTimer;
+let timeRemaining = 600; // default: 10 minutes
+let totalTime = 600;
+let isPlaying = false;
+let currentMeditationType = 'mindfulness';
+
+const meditationTypes = {
+    mindfulness: { title: 'Mindful Awareness', duration: '10 minutes', time: 600 },
+    breathing: { title: 'Deep Breathing', duration: '8 minutes', time: 480 },
+    'body-scan': { title: 'Body Scan Relaxation', duration: '15 minutes', time: 900 },
+    'loving-kindness': { title: 'Loving Kindness', duration: '12 minutes', time: 720 },
+    sleep: { title: 'Sleep Meditation', duration: '20 minutes', time: 1200 },
+    focus: { title: 'Focus Meditation', duration: '5 minutes', time: 300 }
+};
+
+const playButton = document.getElementById('playButton');
+const playIcon = document.getElementById('playIcon');
+const sessionTitle = document.getElementById('sessionTitle');
+const sessionDuration = document.getElementById('sessionDuration');
+const timerDisplay = document.getElementById('timerDisplay');
+const progressFill = document.getElementById('progressFill');
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+}
+
+function updateTimer() {
+    timerDisplay.textContent = formatTime(timeRemaining);
+    const progress = ((totalTime - timeRemaining) / totalTime) * 100;
+    progressFill.style.width = `${progress}%`;
+}
+
+function startTimer() {
+    meditationTimer = setInterval(() => {
+        if (timeRemaining > 0) {
+            timeRemaining--;
+            updateTimer();
+        } else {
+            clearInterval(meditationTimer);
+            isPlaying = false;
+            playIcon.textContent = "▶️";
+            alert("Session Complete! 🌟");
+        }
+    }, 1000);
+}
+
+function togglePlay() {
+    if (!isPlaying) {
+        isPlaying = true;
+        playIcon.textContent = "⏸️";
+        startTimer();
+    } else {
+        isPlaying = false;
+        playIcon.textContent = "▶️";
+        clearInterval(meditationTimer);
+    }
+}
+
+playButton.addEventListener('click', togglePlay);
+
+// Handle meditation type selection
+document.querySelectorAll('.meditation-option').forEach(option => {
+    option.addEventListener('click', () => {
+        // Remove selected class from all options
+        document.querySelectorAll('.meditation-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+
+        currentMeditationType = option.getAttribute('data-type');
+        const meditation = meditationTypes[currentMeditationType];
+
+        // Update session info
+        sessionTitle.textContent = meditation.title;
+        sessionDuration.textContent = meditation.duration;
+        timeRemaining = meditation.time;
+        totalTime = meditation.time;
+
+        // Reset timer and progress
+        updateTimer();
+        progressFill.style.width = '0%';
+        clearInterval(meditationTimer);
+        isPlaying = false;
+        playIcon.textContent = "▶️";
+    });
+});
+
+// Initialize display
+(function initialize() {
+    const meditation = meditationTypes[currentMeditationType];
+    sessionTitle.textContent = meditation.title;
+    sessionDuration.textContent = meditation.duration;
+    timeRemaining = meditation.time;
+    totalTime = meditation.time;
+    updateTimer();
+})();
+        }
+
+</script>
+
     </script>
 </body>
 </html>

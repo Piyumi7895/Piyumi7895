@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <!-- Boxicons -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 /* Root colors */
@@ -266,6 +267,7 @@ section {
             <div class="form-group">
                 <div class="input-container">
                     <span class="input-icon"><i class='bx bx-user'></i></span>
+                    
                     <input type="text" id="username" name="username" placeholder="Username" required>
                 </div>
             </div>
@@ -340,6 +342,15 @@ function togglePassword() {
         icon.classList.remove('bx-eye-slash');
         icon.classList.add('bx-eye');
     }
+}
+
+{
+function showForgotPassword(event) {
+    event.preventDefault(); // prevents default navigation
+    alert("Forgot password clicked!");
+    // Or open a modal / redirect
+    window.location.href = "forgottenpass.html"; // optional
+}
 }
 
 
